@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container-fluid {
+            flex: 1;
+        }
+
+        body {
+            background-color: #000;
+        }
+
+        button[name="logInBtn"],
+        button[name="registerBtn"] {
+            width: 120px;
+            height: 45px;
+            font-weight: bold;
+        }
+
+        button[name="registerBtn"] {
+            background: linear-gradient(to right, rgba(18, 76, 242, 1), #259ce4);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        button[name="registerBtn"]:hover {
+            background: linear-gradient(to right, #259ce4, rgba(18, 76, 242, 1));
+            cursor: pointer;
+            color: white;
+            box-shadow: 0 0 10px 3px rgba(37, 156, 228, 0.7);
+            transition: box-shadow 0.3s ease, background 0.3s ease;
+        }
+
+        button[name="logInBtn"] {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        button[name="logInBtn"]:hover {
+            background: white;
+            color: #000;
+        }
+
+        .dropdown-item.text-white:hover {
+            background: linear-gradient(to right, #259ce4, rgba(18, 76, 242, 1));
+            color: white !important;
+        }
+
+        .nav-link.text-white:hover {
+            background: linear-gradient(to right, #259ce4, rgba(18, 76, 242, 1));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .footer {
+            background-color: #0d1723;
+            color: white;
+            padding: 40px 0 20px 0;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .footer .logo {
+            filter: brightness(0) invert(1);
+            max-width: 120px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 18px;
+            margin-right: 15px;
+        }
+
+        .social-icons a:hover {
+            color: #0dcaf0;
+        }
+
+        .col-md-9,
+        .col-lg-10 {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+
+        .gradient-text {
+            font-weight: bold;
+            background: linear-gradient(to right, #25d4e4, rgba(18, 76, 242, 1));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sidebar-custom {
+            background-color: #0a3d62;
+        }
+
+        .nav-link.active {
+            background: linear-gradient(to right, #259ce4, rgba(18, 76, 242, 1)) !important;
+            color: white !important;
+        }
+
+        .nav-link:hover {
+            background-color: #1b68b0;
+            color: white;
+        }
+
+        .nav-pills .nav-link {
+            border-radius: 0.5rem;
+            padding: 10px 15px;
+        }
+        .bg-gradient-blue {
+            background: linear-gradient(180deg, #385279 0%, rgba(0, 31, 77, 0) 100%);
+          }
+        
+          .container.text-light * {
+            color: #636567;
+          }
+          .custom-input {
+            background-color: #393e42; /* màu xám Bootstrap (gray-600) */
+            color: white;
+            border: 1px solid #627d99; /* viền tối hơn */
+          }
+        
+          .custom-input::placeholder {
+            color: #ffffff; /* chữ placeholder màu xám nhạt */
+          }
+        
+          .custom-input:focus {
+            background-color: #5a6268;
+            color: white;
+            border-color: #343a40;
+            box-shadow: none;
+          }
+    .btn-custom-gray {
+        background-color: #1e2122;
+        color: white;
+        border-color: #343a40;
+    }
+
+    .btn-custom-gray:hover,
+    .btn-custom-gray:focus {
+        background-color: #6c757d;
+        border-color: #343a40;
+        color: white;
+    }
+
+    .btn-custom-gray-outline {
+        background-color: transparent;
+        border: 1px solid #343a40;
+    }
+
+    .btn-custom-gray-outline:hover,
+    .btn-custom-gray-outline:focus {
+        background-color: #5a6268;
+        color: white;
+        border-color: #343a40;
+    }
+
+    .btn-custom-gray.active {
+        background-color: #5a6268 !important;
+        color: white !important;
+        border-color: #343a40 !important;
+    }
+</style>
+</head>
+
+<body class="text-white">
+    <main>
+        <div class="container-fluid">
+            <div class="row min-vh-100">
+
+                <!-- Sidebar -->
+                <div class="col-md-3 col-lg-2 sidebar-custom text-white p-3">
+                    <a href="/"
+                        class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <span class="fs-4 gradient-text fw-bold">Management Pages</span>
+                    </a>
+                    <hr />
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item mb-2">
+                            <a href="../CarManagement/index.html"  class="nav-link text-white">
+                                <i class="fas fa-car me-2"></i> Car Management
+                            </a>
+                        </li>
+                        <li class=" mb-2">
+                            <a href="../OrderManagement/index.html" class="nav-link text-white">
+                                <i class="fas fa-file-invoice me-2"></i> Order Management
+                            </a>
+                        </li>
+                        <li class=" mb-2">
+                            <a href="../PaymentManagement/index.html" class="nav-link text-white">
+                                <i class="fas fa-money-bill-wave me-2"></i> Payment Management
+                            </a>
+                        </li>
+                        <li class=" mb-2">
+                            <a href="../NotificationManagement/index.html" class="nav-link active" aria-current="page">
+                                <i class="fas fa-bell me-2"></i> Notification Management
+                            </a>
+                        </li>
+                        <li class=" mb-2">
+                            <a href="../FinancialManagement/index.html" class="nav-link text-white">
+                                <i class="fas fa-chart-line me-2"></i> Financial Management
+                            </a>
+                        </li>
+                    </ul>
+                    <hr />
+                </div>
+
+                <!-- Nội dung chính -->
+                <div class="col-md-9 col-lg-10 bg-black text-white pl-0 pr-0 ml-0 mr-0">
+                    <header class="pt-1 pb-3 text-white">
+                        <div class="container">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <img src="./360_F_493639968_ZqpYbW6DqzOqIMCIUbnrYdJVVJnDDTvZ-removebg-preview.png"
+                                        alt="Logo" class="img-fluid" style="max-height: 100px;" />
+                                </div>
+
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <button type="button" name="logInBtn"
+                                            class="btn btn-outline-light me-2">Logout</button>
+                                    </div>
+                                    <div class="dropdown ms-3">
+                                        <a href="#" class="d-block link-light text-decoration-none dropdown-toggle"
+                                            id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img src="https://images.thedirect.com/media/photos/avatar3.png"
+                                                alt="Avatar" width="40" height="40" class="rounded-circle" />
+                                        </a>
+                                        <ul class="dropdown-menu text-small bg-dark" aria-labelledby="dropdownUser1">
+                                            <li><a class="dropdown-item text-white" href="#">Settings</a></li>
+                                            <li><a class="dropdown-item text-white" href="#">Profile</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                    <div class="container mt-5 p-4  bg-gradient-blue text-light rounded shadow">
+                        <!-- Header Controls -->
+                        <form>
+                            <div class="mb-3">
+                              <label for="notificationId" class="form-label text-white">NotificationID</label>
+                              <input type="text" class="form-control" id="notificationId" name="notificationId">
+                            </div>
+                          
+                            <div class="mb-3">
+                                <label for="userId" class="form-label text-white">UserID</label>
+                                <input type="text" class="form-control" id="userId" name="userId">
+                              </div>
+                              
+                            <div class="mb-3">
+                              <label for="title" class="form-label text-white">Title</label>
+                              <input type="text" class="form-control" id="title" name="title">
+                            </div>
+                            <div class="mb-3">
+                              <label for="sentDate" class="form-label text-white">SentDate</label>
+                              <input type="datetime-local" class="form-control" id="sentDate" name="sentDate">
+                            </div>
+                          
+                            <div class="mb-3">
+                              <label for="isRead" class="form-label text-white">IsRead</label>
+                              <select class="form-select" id="isRead" name="isRead">
+                                <option value="true">Read</option>
+                                <option value="false">Unread</option>
+                              </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="content" class="form-label text-white">Content</label>
+                                <input type="text" class="form-control" id="content" name="content">
+                              </div>
+                            
+                          
+                         
+                          
+                            <button type="submit" class="btn btn-primary text-white">Submit</button>
+                          </form>
+                    </div>
+
+                    <footer class="footer mt-auto">
+                        <div class="container text-center">
+                            <div class="row justify-content-center">
+                                <div>
+                                    <img src="./360_F_493639968_ZqpYbW6DqzOqIMCIUbnrYdJVVJnDDTvZ-removebg-preview.png"
+                                        alt="Logo" class="img-fluid" style="max-height: 100px;" />
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row text-white justify-content-center">
+                                <div class="col-md-3 mb-3">
+                                    <p><a href="#">ABOUT US</a></p>
+                                    <p><a href="#">FAQ</a></p>
+                                    <p><a href="#">CONTACT</a></p>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <p>CUSTOMER SERVICE</p>
+                                    <p>info@car.com</p>
+                                    <p>240-865-3730</p>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <p>3926 Calvin Street</p>
+                                    <p>Baltimore, Maryland,</p>
+                                    <p>21201, United State</p>
+                                    <div class="social-icons">
+                                        <a href="#"><i class="bi bi-facebook"></i></a>
+                                        <a href="#"><i class="bi bi-instagram"></i></a>
+                                        <a href="#"><i class="bi bi-youtube"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
