@@ -1,589 +1,701 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <title>Document</title>
-  <style>
-    html,
-    body {
-      height: 100%;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Car Sale Management</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
 
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .container-fluid {
-      flex: 1;
-    }
+        .container-fluid {
+            flex: 1;
+        }
 
-    body {
-      background-color: #000;
-    }
+        body {
+            background-color: #000;
+        }
 
-    button[name="logInBtn"],
-    button[name="registerBtn"] {
-      width: 120px;
-      height: 45px;
-      font-weight: bold;
-    }
+        button[name="logInBtn"],
+        button[name="registerBtn"] {
+            width: 120px;
+            height: 45px;
+            font-weight: bold;
+        }
 
-    button[name="registerBtn"] {
-      background: linear-gradient(to right, rgba(18, 76, 242, 1), #259ce4);
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      transition: background 0.3s ease;
-    }
+        button[name="registerBtn"] {
+            background: linear-gradient(to right, rgba(18, 76, 242, 1), #259ce4);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
 
-    button[name="registerBtn"]:hover {
-      background: linear-gradient(to right, #259ce4, rgba(18, 76, 242, 1));
-      cursor: pointer;
-      color: white;
-      box-shadow: 0 0 10px 3px rgba(37, 156, 228, 0.7);
-      transition: box-shadow 0.3s ease, background 0.3s ease;
-    }
+        button[name="registerBtn"]:hover {
+            background: linear-gradient(to right, #259ce4, rgba(18, 76, 242, 1));
+            cursor: pointer;
+            color: white;
+            box-shadow: 0 0 10px 3px rgba(37, 156, 228, 0.7);
+            transition: box-shadow 0.3s ease, background 0.3s ease;
+        }
 
-    button[name="logInBtn"] {
-      background: transparent;
-      border: 2px solid white;
-      color: white;
-      transition: all 0.3s ease;
-    }
+        button[name="logInBtn"] {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+            transition: all 0.3s ease;
+        }
 
-    button[name="logInBtn"]:hover {
-      background: white;
-      color: #000;
-    }
+        button[name="logInBtn"]:hover {
+            background: white;
+            color: #000;
+        }
 
-    .dropdown-item.text-white:hover {
-      background: linear-gradient(to right, #259ce4, rgba(18, 76, 242, 1));
-      color: white !important;
-    }
+        .dropdown-item.text-white:hover {
+            background: linear-gradient(to right, #259ce4, rgba(18, 76, 242, 1));
+            color: white !important;
+        }
 
-    .nav-link.text-white:hover {
-      background: linear-gradient(to right, #259ce4, rgba(18, 76, 242, 1));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      transition: all 0.3s ease-in-out;
-    }
+        .nav-link.text-white:hover {
+            background: linear-gradient(to right, #259ce4, rgba(18, 76, 242, 1));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all 0.3s ease-in-out;
+        }
 
-    .footer {
-      background-color: #0d1723;
-      color: white;
-      padding: 40px 0 20px 0;
-      font-size: 14px;
-    }
+        .footer {
+            background-color: #0d1723;
+            color: white;
+            padding: 40px 0 20px 0;
+            font-size: 14px;
+        }
 
-    .footer a {
-      color: white;
-      text-decoration: none;
-    }
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
 
-    .footer a:hover {
-      text-decoration: underline;
-    }
+        .footer a:hover {
+            text-decoration: underline;
+        }
 
-    .footer .logo {
-      filter: brightness(0) invert(1);
-      max-width: 120px;
-    }
+        .footer .logo {
+            filter: brightness(0) invert(1);
+            max-width: 120px;
+        }
 
-    .social-icons a {
-      color: white;
-      font-size: 18px;
-      margin-right: 15px;
-    }
+        .social-icons a {
+            color: white;
+            font-size: 18px;
+            margin-right: 15px;
+        }
 
-    .social-icons a:hover {
-      color: #0dcaf0;
-    }
+        .social-icons a:hover {
+            color: #0dcaf0;
+        }
 
-    .col-md-9,
-    .col-lg-10 {
-      padding-left: 0 !important;
-      padding-right: 0 !important;
-    }
+        .col-md-9,
+        .col-lg-10 {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
 
-    .gradient-text {
-      font-weight: bold;
-      background: linear-gradient(to right, #25d4e4, rgba(18, 76, 242, 1));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+        .gradient-text {
+            font-weight: bold;
+            background: linear-gradient(to right, #25d4e4, rgba(18, 76, 242, 1));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-    .sidebar-custom {
-      background-color: #0a3d62;
-    }
+        .sidebar-custom {
+            background-color: #0a3d62;
+        }
 
-    .nav-link.active {
-      background: linear-gradient(to right, #259ce4, rgba(18, 76, 242, 1)) !important;
-      color: white !important;
-    }
+        .nav-link.active {
+            background: linear-gradient(to right, #259ce4, rgba(18, 76, 242, 1)) !important;
+            color: white !important;
+        }
 
-    .nav-link:hover {
-      background-color: #1b68b0;
-      color: white;
-    }
+        .nav-link:hover {
+            background-color: #1b68b0;
+            color: white;
+        }
 
-    .nav-pills .nav-link {
-      border-radius: 0.5rem;
-      padding: 10px 15px;
-    }
+        .nav-pills .nav-link {
+            border-radius: 0.5rem;
+            padding: 10px 15px;
+        }
 
-    .bg-gradient-blue {
-      background: linear-gradient(180deg, #385279 0%, rgba(0, 31, 77, 0) 100%);
-    }
+        .bg-gradient-blue {
+            background: linear-gradient(180deg, #385279 0%, rgba(0, 31, 77, 0) 100%);
+        }
 
-    .container.text-light * {
-      color: #636567;
-    }
+        .container.text-light * {
+            color: #636567;
+        }
 
-    .custom-input {
-      background-color: #393e42;
-      /* màu xám Bootstrap (gray-600) */
-      color: white;
-      border: 1px solid #627d99;
-      /* viền tối hơn */
-    }
+        .custom-input {
+            background-color: #393e42;
+            color: white;
+            border: 1px solid #627d99;
+        }
 
-    .custom-input::placeholder {
-      color: #ffffff;
-      /* chữ placeholder màu xám nhạt */
-    }
+        .custom-input::placeholder {
+            color: #ffffff;
+        }
 
-    .custom-input:focus {
-      background-color: #5a6268;
-      color: white;
-      border-color: #343a40;
-      box-shadow: none;
-    }
+        .custom-input:focus {
+            background-color: #5a6268;
+            color: white;
+            border-color: #343a40;
+            box-shadow: none;
+        }
 
-    .btn-custom-gray {
-      background-color: #1e2122;
-      color: white;
-      border-color: #343a40;
-    }
+        .btn-custom-gray {
+            background-color: #1e2122;
+            color: white;
+            border-color: #343a40;
+        }
 
-    .btn-custom-gray:hover,
-    .btn-custom-gray:focus {
-      background-color: #6c757d;
-      border-color: #343a40;
-      color: white;
-    }
+        .btn-custom-gray:hover,
+        .btn-custom-gray:focus {
+            background-color: #6c757d;
+            border-color: #343a40;
+            color: white;
+        }
 
-    .btn-custom-gray-outline {
-      background-color: transparent;
-      border: 1px solid #343a40;
-    }
+        .btn-custom-gray-outline {
+            background-color: transparent;
+            border: 1px solid #343a40;
+        }
 
-    .btn-custom-gray-outline:hover,
-    .btn-custom-gray-outline:focus {
-      background-color: #5a6268;
-      color: white;
-      border-color: #343a40;
-    }
+        .btn-custom-gray-outline:hover,
+        .btn-custom-gray-outline:focus {
+            background-color: #5a6268;
+            color: white;
+            border-color: #343a40;
+        }
 
-    .btn-custom-gray.active {
-      background-color: #5a6268 !important;
-      color: white !important;
-      border-color: #343a40 !important;
-    }
-  </style>
+        .btn-custom-gray.active {
+            background-color: #5a6268 !important;
+            color: white !important;
+            border-color: #343a40 !important;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 991px) {
+            .sidebar-custom {
+                position: fixed;
+                top: 0;
+                left: -250px;
+                width: 250px;
+                height: 100%;
+                z-index: 1050;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar-custom.show {
+                left: 0;
+            }
+
+            .col-md-9,
+            .col-lg-10 {
+                width: 100%;
+                padding: 0 15px !important;
+            }
+
+            .container.mt-5 {
+                margin-top: 2rem !important;
+                padding: 1rem;
+            }
+
+            .table-responsive {
+                font-size: 0.9rem;
+            }
+
+            .table th,
+            .table td {
+                padding: 0.5rem;
+            }
+
+            .d-flex.flex-wrap.align-items-center {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .d-flex.gap-3.mb-3,
+            .d-flex.flex-wrap.gap-3 {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .form-control.w-auto,
+            .form-select.w-auto {
+                width: 100% !important;
+                max-width: 100%;
+            }
+
+            .btn-group {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .btn-group .btn {
+                flex: 1;
+                text-align: center;
+            }
+
+            .modal-lg {
+                max-width: 90%;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .sidebar-custom {
+                width: 200px;
+                left: -200px;
+            }
+
+            .sidebar-custom.show {
+                left: 0;
+            }
+
+            .table-responsive {
+                font-size: 0.85rem;
+            }
+
+            .table th,
+            .table td {
+                padding: 0.4rem;
+            }
+
+            button[name="logInBtn"],
+            button[name="registerBtn"],
+            button[name="logOutBtn"] {
+                width: 100px;
+                height: 40px;
+                font-size: 0.85rem;
+            }
+
+            .container.text-light h1,
+            .container.text-light h5 {
+                font-size: 1.25rem;
+            }
+
+            .footer {
+                padding: 20px 0;
+                font-size: 0.85rem;
+            }
+
+            .footer .col-md-3 {
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+
+            .footer .logo {
+                max-width: 100px;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .table-responsive {
+                font-size: 0.8rem;
+            }
+
+            .table th,
+            .table td {
+                padding: 0.3rem;
+            }
+
+            .d-flex.justify-content-between.align-items-center.mt-4 {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .btn-custom-gray,
+            .btn-custom-gray-outline {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        .sidebar-gradient {
+          background: linear-gradient(to right, #259ce4, rgba(18, 76, 242, 1));
+        }
+    </style>
 </head>
-
 <body class="text-white">
-  <main>
-    <div class="container-fluid">
-      <div class="row min-vh-100">
+    <main>
+        <div class="container-fluid">
+            <div class="row min-vh-100">
+               <!-- Nút toggle hiện trên thiết bị nhỏ -->
+<nav class="navbar navbar-dark d-md-none">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <span class="navbar-brand ms-2">Menu</span>
+  </div>
+</nav>
 
-        <!-- Sidebar -->
-        <div class="col-md-3 col-lg-2 sidebar-custom text-white p-3">
-          <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-            <span class="fs-4 gradient-text fw-bold">Management Pages</span>
-          </a>
-          <hr />
-          <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item dropdown mb-2">
-              <a href="../CarManagement/index.html" class="nav-link active dropdown-toggle" aria-current="page"
-                data-bs-toggle="dropdown">
-                <i class="fas fa-car me-2"></i> Car Management
-              </a>
-              <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addModal">Add</a></li>
-                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editModal">Edit</a></li>
-                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#viewModal">View</a></li>
-              </ul>
-            </li>
-            <li class=" mb-2">
-              <a href="../OrderManagement/index.html" class="nav-link text-white">
-                <i class="fas fa-file-invoice me-2"></i> Order Management
-              </a>
-            </li>
-            <li class=" mb-2">
-              <a href="../PaymentManagement/index.html" class="nav-link text-white">
-                <i class="fas fa-money-bill-wave me-2"></i> Payment Management
-              </a>
-            </li>
-            <li class=" mb-2">
-              <a href="../NotificationManagement/index.html" class="nav-link text-white">
-                <i class="fas fa-bell me-2"></i> Notification Management
-              </a>
-            </li>
-            <li class=" mb-2">
-              <a href="../FinancialManagement/index.html" class="nav-link text-white">
-                <i class="fas fa-chart-line me-2"></i> Financial Management
-              </a>
-            </li>
-          </ul>
-          <hr />
-        </div>
-
-        <!-- Nội dung chính -->
-        <div class="col-md-9 col-lg-10 bg-black text-white pl-0 pr-0 ml-0 mr-0">
-          <header class="pt-1 pb-3 text-white">
-            <div class="container">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <img src="./360_F_493639968_ZqpYbW6DqzOqIMCIUbnrYdJVVJnDDTvZ-removebg-preview.png" alt="Logo"
-                    class="img-fluid" style="max-height: 100px;" />
-                </div>
-
-                <div class="d-flex align-items-center">
-                  <div>
-                    <button type="button" name="logInBtn" class="btn btn-outline-light me-2">Logout</button>
-                  </div>
-                  <div class="dropdown ms-3">
-                    <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1"
-                      data-bs-toggle="dropdown" aria-expanded="false">
-                      <img src="https://images.thedirect.com/media/photos/avatar3.png" alt="Avatar" width="40"
-                        height="40" class="rounded-circle" />
-                    </a>
-                    <ul class="dropdown-menu text-small bg-dark" aria-labelledby="dropdownUser1">
-                      <li><a class="dropdown-item text-white" href="#">Settings</a></li>
-                      <li><a class="dropdown-item text-white" href="#">Profile</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </header>
-          <div class="container mt-5 p-4  bg-gradient-blue text-light rounded shadow">
-            <!-- Header Controls -->
-            <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
-              <!-- Action Buttons -->
-              <div class="d-flex gap-3 mb-3">
-                <button class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#addModal">
-                  + Add New
-                </button>
-              </div>
-
-
-              <!-- Filters and Sorting -->
-              <div class="d-flex flex-wrap gap-3">
-                <input type="text" class="form-control w-auto custom-input" placeholder="Search...">
-                <select class="form-select w-auto custom-input text-white">
-                  <option value="all" class="text-white">All statuses</option>
-                  <option value="available" class="text-white">Available</option>
-                  <option value="unavailable" class="text-white">Unavailable</option>
-                </select>
-                <select class="form-select w-auto custom-input text-white">
-                  <option value="5" class="text-white">5</option>
-                  <option value="10" class="text-white">10</option>
-                  <option value="15" class="text-white">15</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Table Container -->
-            <div class="table-responsive">
-              <!-- <p class="text-center text-muted">Sản phẩm bạn tìm kiếm không tồn tại</p> -->
-              <table class="table table-bordered">
-                <thead class="table-light">
-                  <tr>
-                    <th><input type="checkbox"></th>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>ImageURL</th>
-                    <th>Year</th>
-                    <th>Fuel Type</th>
-                    <th>Transmission</th>
-                    <th>Engine Capacity</th>
-                    <th>Color</th>
-                    <th>Model</th>
-                    <th>Brand</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="car-table-body">
-                  <!-- Dữ liệu sẽ được thêm bằng JavaScript -->
-                </tbody>
-              </table>
-              
-            </div>
-
-            <!-- Pagination -->
-            <div class="d-flex justify-content-between align-items-center mt-4">
-              <button class="btn btn-custom-gray text-white">Previous page</button>
-              <div class="btn-group">
-                <button class="btn btn-custom-gray active">1</button>
-                <button class="btn btn-custom-gray-outline">2</button>
-                <button class="btn btn-custom-gray-outline">3</button>
-              </div>
-              <button class="btn btn-custom-gray text-white">Next page</button>
-            </div>
-          </div>
-
-          <!-- Add Modal -->
-          <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-              <div class="modal-content bg-dark text-light">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="addModalLabel">Add New Car Model</h5>
-                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <!-- Form thêm xe -->
-                  <form id="addCarForm">
-                    <div class="mb-3">
-                      <label class="form-label">Car Name</label>
-                      <input type="text" id="carName" class="form-control bg-secondary text-light"
-                        placeholder="VD: Toyota Camry" required>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Year</label>
-                      <input type="number" id="year" class="form-control bg-secondary text-light" placeholder="VD: 2024"
-                        required>
-                    </div>
-                    <!-- Tương tự với các input khác -->
-                    <div class="mb-3">
-                      <label class="form-label">Fuel Type</label>
-                      <input type="text" id="fuelType" class="form-control bg-secondary text-light"
-                        placeholder="VD: Petrol / Diesel / Electric" required>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Transmission</label>
-                      <input type="text" id="transmission" class="form-control bg-secondary text-light"
-                        placeholder="VD: Automatic / Manual" required>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Engine Capacity</label>
-                      <input type="number" step="0.1" id="engineCapacity" class="form-control bg-secondary text-light"
-                        placeholder="VD: 2.0" required>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Color</label>
-                      <input type="text" id="color" class="form-control bg-secondary text-light" placeholder="VD: Black"
-                        required>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Image URL</label>
-                      <input type="text" id="imageURL" class="form-control bg-secondary text-light"
-                        placeholder="VD: https://..." required>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Model</label>
-                      <input type="text" id="model" class="form-control bg-secondary text-light"
-                        placeholder="VD: LE / XLE" required>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Unit Price</label>
-                      <input type="number" step="0.01" id="unitPrice" class="form-control bg-secondary text-light"
-                        placeholder="VD: 50000" required>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Brand ID</label>
-                      <input type="number" id="brandID" class="form-control bg-secondary text-light" placeholder="VD: 1"
-                        required>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Category ID</label>
-                      <input type="number" id="categoryID" class="form-control bg-secondary text-light"
-                        placeholder="VD: 1" required>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Status ID</label>
-                      <input type="number" id="statusID" class="form-control bg-secondary text-light"
-                        placeholder="VD: 1" required>
-                    </div>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" form="addCarForm" class="btn btn-success">Save</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-        <!-- Edit Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content bg-dark text-light">
-          <div class="modal-header">
-              <h5 class="modal-title" id="editModalLabel">Edit Car Model</h5>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              <!-- Form sửa -->
-              <form id="editCarForm">
-                  <div class="mb-3">
-                      <label class="form-label">CarModel ID</label>
-                      <input type="text" id="editCarModelID" class="form-control bg-secondary text-light" readonly>
-                  </div>
-                  <div class="mb-3">
-                      <label class="form-label">Car Name</label>
-                      <input type="text" id="editCarName" class="form-control bg-secondary text-light">
-                  </div>
-                  <div class="mb-3">
-                      <label class="form-label">Year</label>
-                      <input type="number" id="editYear" class="form-control bg-secondary text-light">
-                  </div>
-                  <div class="mb-3">
-                      <label class="form-label">Fuel Type</label>
-                      <input type="text" id="editFuelType" class="form-control bg-secondary text-light">
-                  </div>
-                  <div class="mb-3">
-                      <label class="form-label">Transmission</label>
-                      <input type="text" id="editTransmission" class="form-control bg-secondary text-light">
-                  </div>
-                  <div class="mb-3">
-                      <label class="form-label">Engine Capacity</label>
-                      <input type="number" step="0.1" id="editEngineCapacity" class="form-control bg-secondary text-light">
-                  </div>
-                  <div class="mb-3">
-                      <label class="form-label">Color</label>
-                      <input type="text" id="editColor" class="form-control bg-secondary text-light">
-                  </div>
-                  <div class="mb-3">
-                      <label class="form-label">Image URL</label>
-                      <input type="text" id="editImageURL" class="form-control bg-secondary text-light">
-                  </div>
-                  <div class="mb-3">
-                      <label class="form-label">Model</label>
-                      <input type="text" id="editModel" class="form-control bg-secondary text-light">
-                  </div>
-                  <div class="mb-3">
-                      <label class="form-label">Unit Price</label>
-                      <input type="number" step="0.01" id="editUnitPrice" class="form-control bg-secondary text-light">
-                  </div>
-                  <div class="mb-3">
-                      <label class="form-label">Brand ID</label>
-                      <input type="number" id="editBrandID" class="form-control bg-secondary text-light">
-                  </div>
-                  <div class="mb-3">
-                      <label class="form-label">Category ID</label>
-                      <input type="number" id="editCategoryID" class="form-control bg-secondary text-light">
-                  </div>
-                  <div class="mb-3">
-                      <label class="form-label">Status ID</label>
-                      <input type="number" id="editStatusID" class="form-control bg-secondary text-light">
-                  </div>
-              </form>
-          </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" form="editCarForm" class="btn btn-primary">Update</button>
-          </div>
-      </div>
+<!-- Sidebar -->
+<div class="col-md-3 col-lg-2 p-0">
+  <div class="collapse d-md-block text-white p-3 h-100 sidebar-custom" id="sidebarMenu">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <span class="fs-4 gradient-text fw-bold">Management Pages</span>
+    </a>
+    <hr />
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item dropdown mb-2">
+        <a href="../CarManagement/index.html"  class="nav-link active dropdown-toggle" aria-current="page" data-bs-toggle="dropdown">
+          <i class="fas fa-car me-2"></i> Car Management
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark">
+          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addModal">Add</a></li>
+          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editModal">Edit</a></li>
+          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#viewModal">View</a></li>
+        </ul>
+      </li>
+      <li class="mb-2">
+        <a href="../OrderManagement/index.html" class="nav-link text-white">
+          <i class="fas fa-file-invoice me-2"></i> Order Management
+        </a>
+      </li>
+      <li class="mb-2">
+        <a href="../PaymentManagement/index.html" class="nav-link text-white">
+          <i class="fas fa-money-bill-wave me-2"></i> Payment Management
+        </a>
+      </li>
+      <li class="mb-2">
+        <a href="../NotificationManagement/index.html" class="nav-link text-white">
+          <i class="fas fa-bell me-2"></i> Notification Management
+        </a>
+      </li>
+      <li class="mb-2">
+        <a href="../FinancialManagement/index.html" class="nav-link text-white">
+          <i class="fas fa-chart-line me-2"></i> Financial Management
+        </a>
+      </li>
+    </ul>
+    <hr />
   </div>
 </div>
 
+                <!-- Main Content -->
+                <div class="col-md-9 col-lg-10 bg-black text-white">
+                    <header class="pt-1 pb-3 text-white">
+                        <div class="container">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                                <div>
+                                    <img src="./360_F_493639968_ZqpYbW6DqzOqIMCIUbnrYdJVVJnDDTvZ-removebg-preview.png" alt="Logo" class="img-fluid" style="max-height: 100px;" />
+                                </div>
+                                <button class="navbar-toggler d-lg-none ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle sidebar">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                                <div class="d-flex align-items-center">
+                                    <button type="button" name="logInBtn" class="btn btn-outline-light me-2">Logout</button>
+                                    <div class="dropdown ms-3">
+                                        <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img src="https://images.thedirect.com/media/photos/avatar3.png" alt="Avatar" width="40" height="40" class="rounded-circle" />
+                                        </a>
+                                        <ul class="dropdown-menu text-small bg-dark" aria-labelledby="dropdownUser1">
+                                            <li><a class="dropdown-item text-white" href="#">Settings</a></li>
+                                            <li><a class="dropdown-item text-white" href="#">Profile</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                    <div class="container mt-5 p-4 bg-gradient-blue text-light rounded shadow">
+                        <!-- Header Controls -->
+                        <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
+                            <!-- Action Buttons -->
+                            <div class="d-flex gap-3 mb-3">
+                                <button class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#addModal">
+                                    + Add New
+                                </button>
+                            </div>
+                            <!-- Filters and Sorting -->
+                            <div class="d-flex flex-wrap gap-3">
+                                <input type="text" class="form-control w-auto custom-input" placeholder="Search...">
+                                <select class="form-select w-auto custom-input text-white">
+                                    <option value="all" class="text-white">All statuses</option>
+                                    <option value="available" class="text-white">Available</option>
+                                    <option value="unavailable" class="text-white">Unavailable</option>
+                                </select>
+                                <select class="form-select w-auto custom-input text-white">
+                                    <option value="5" class="text-white">5</option>
+                                    <option value="10" class="text-white">10</option>
+                                    <option value="15" class="text-white">15</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Table Container -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th><input type="checkbox"></th>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>ImageURL</th>
+                                        <th>Year</th>
+                                        <th>Fuel Type</th>
+                                        <th>Transmission</th>
+                                        <th>Engine Capacity</th>
+                                        <th>Color</th>
+                                        <th>Model</th>
+                                        <th>Brand</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="car-table-body"></tbody>
+                            </table>
+                        </div>
+                        <!-- Pagination -->
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <button class="btn btn-custom-gray text-white">Previous page</button>
+                            <div class="btn-group">
+                                <button class="btn btn-custom-gray active">1</button>
+                                <button class="btn btn-custom-gray-outline">2</button>
+                                <button class="btn btn-custom-gray-outline">3</button>
+                            </div>
+                            <button class="btn btn-custom-gray text-white">Next page</button>
+                        </div>
+                    </div>
 
-          <!-- View Modal -->
-          <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-md">
-                <div class="modal-content bg-dark text-light">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="viewModalLabel">View Car Model</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <!-- Add Modal -->
+                    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content bg-dark text-light">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addModalLabel">Add New Car Model</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="addCarForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Car Name</label>
+                                            <input type="text" id="carName" class="form-control bg-secondary text-light" placeholder="VD: Toyota Camry" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Year</label>
+                                            <input type="number" id="year" class="form-control bg-secondary text-light" placeholder="VD: 2024" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Fuel Type</label>
+                                            <input type="text" id="fuelType" class="form-control bg-secondary text-light" placeholder="VD: Petrol / Diesel / Electric" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Transmission</label>
+                                            <input type="text" id="transmission" class="form-control bg-secondary text-light" placeholder="VD: Automatic / Manual" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Engine Capacity</label>
+                                            <input type="number" step="0.1" id="engineCapacity" class="form-control bg-secondary text-light" placeholder="VD: 2.0" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Color</label>
+                                            <input type="text" id="color" class="form-control bg-secondary text-light" placeholder="VD: Black" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Image URL</label>
+                                            <input type="text" id="imageURL" class="form-control bg-secondary text-light" placeholder="VD: https://..." required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Model</label>
+                                            <input type="text" id="model" class="form-control bg-secondary text-light" placeholder="VD: LE / XLE" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Unit Price</label>
+                                            <input type="number" step="0.01" id="unitPrice" class="form-control bg-secondary text-light" placeholder="VD: 50000" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Brand ID</label>
+                                            <input type="number" id="brandID" class="form-control bg-secondary text-light" placeholder="VD: 1" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Category ID</label>
+                                            <input type="number" id="categoryID" class="form-control bg-secondary text-light" placeholder="VD: 1" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Status ID</label>
+                                            <input type="number" id="statusID" class="form-control bg-secondary text-light" placeholder="VD: 1" required>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" form="addCarForm" class="btn btn-success">Save</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <p><strong>CarModel ID:</strong> <span id="viewCarModelID"></span></p>
-                        <p><strong>Car Name:</strong> <span id="viewCarName"></span></p>
-                        <p><strong>Year:</strong> <span id="viewYear"></span></p>
-                        <p><strong>Fuel Type:</strong> <span id="viewFuelType"></span></p>
-                        <p><strong>Transmission:</strong> <span id="viewTransmission"></span></p>
-                        <p><strong>Engine Capacity:</strong> <span id="viewEngineCapacity"></span></p>
-                        <p><strong>Color:</strong> <span id="viewColor"></span></p>
-                        <p><strong>Image URL:</strong> <a id="viewImageURL" href="#" target="_blank" class="text-info">View Image</a></p>
-                        <p><strong>Model:</strong> <span id="viewModel"></span></p>
-                        <p><strong>Unit Price:</strong> <span id="viewUnitPrice"></span></p>
-                        <p><strong>Brand ID:</strong> <span id="viewBrandID"></span></p>
-                        <p><strong>Brand Name:</strong> <span id="viewBrandName"></span></p>
-                        <p><strong>Category ID:</strong> <span id="viewCategoryID"></span></p>
-                        <p><strong>Category Name:</strong> <span id="viewCategoryName"></span></p>
-                        <p><strong>Status ID:</strong> <span id="viewStatusID"></span></p>
-                        <p><strong>Status Name:</strong> <span id="viewStatusName"></span></p>
-                        <p><strong>Is Hidden:</strong> <span id="viewIsHidden"></span></p>
+
+                    <!-- Edit Modal -->
+                    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content bg-dark text-light">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editModalLabel">Edit Car Model</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="editCarForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">CarModel ID</label>
+                                            <input type="text" id="editCarModelID" class="form-control bg-secondary text-light" readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Car Name</label>
+                                            <input type="text" id="editCarName" class="form-control bg-secondary text-light">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Year</label>
+                                            <input type="number" id="editYear" class="form-control bg-secondary text-light">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Fuel Type</label>
+                                            <input type="text" id="editFuelType" class="form-control bg-secondary text-light">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Transmission</label>
+                                            <input type="text" id="editTransmission" class="form-control bg-secondary text-light">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Engine Capacity</label>
+                                            <input type="number" step="0.1" id="editEngineCapacity" class="form-control bg-secondary text-light">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Color</label>
+                                            <input type="text" id="editColor" class="form-control bg-secondary text-light">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Image URL</label>
+                                            <input type="text" id="editImageURL" class="form-control bg-secondary text-light">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Model</label>
+                                            <input type="text" id="editModel" class="form-control bg-secondary text-light">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Unit Price</label>
+                                            <input type="number" step="0.01" id="editUnitPrice" class="form-control bg-secondary text-light">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Brand ID</label>
+                                            <input type="number" id="editBrandID" class="form-control bg-secondary text-light">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Category ID</label>
+                                            <input type="number" id="editCategoryID" class="form-control bg-secondary text-light">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Status ID</label>
+                                            <input type="number" id="editStatusID" class="form-control bg-secondary text-light">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" form="editCarForm" class="btn btn-primary">Update</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                    <!-- View Modal -->
+                    <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-md">
+                            <div class="modal-content bg-dark text-light">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="viewModalLabel">View Car Model</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p><strong>CarModel ID:</strong> <span id="viewCarModelID"></span></p>
+                                    <p><strong>Car Name:</strong> <span id="viewCarName"></span></p>
+                                    <p><strong>Year:</strong> <span id="viewYear"></span></p>
+                                    <p><strong>Fuel Type:</strong> <span id="viewFuelType"></span></p>
+                                    <p><strong>Transmission:</strong> <span id="viewFuelType"></span></p>
+                                    <p><strong>Engine Capacity:</strong> <span id="viewEngineCapacity"></span></p>
+                                    <p><strong>Color:</strong> <span id="viewColor"></span></p>
+                                    <p><strong>Image URL:</strong> <a id="viewImageURL" href="#" target="_blank" class="text-info">View Image</a></p>
+                                    <p><strong>Model:</strong> <span id="viewModel"></span></p>
+                                    <p><strong>Unit Price:</strong> <span id="viewUnitPrice"></span></p>
+                                    <p><strong>Brand ID:</strong> <span id="viewBrandID"></span></p>
+                                    <p><strong>Brand Name:</strong> <span id="viewBrandName"></span></p>
+                                    <p><strong>Category ID:</strong> <span id="viewCategoryID"></span></p>
+                                    <p><strong>Category Name:</strong> <span id="viewCategoryName"></span></p>
+                                    <p><strong>Status ID:</strong> <span id="viewStatusID"></span></p>
+                                    <p><strong>Status Name:</strong> <span id="viewStatusName"></span></p>
+                                    <p><strong>Is Hidden:</strong> <span id="viewIsHidden"></span></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    <footer class="footer mt-auto">
+                        <div class="container text-center">
+                            <div class="row justify-content-center">
+                                <div>
+                                    <img src="./360_F_493639968_ZqpYbW6DqzOqIMCIUbnrYdJVVJnDDTvZ-removebg-preview.png" alt="Logo" class="img-fluid" style="max-height: 100px;" />
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row text-white justify-content-center">
+                                <div class="col-md-3 mb-3">
+                                    <p><a href="#">ABOUT US</a></p>
+                                    <p><a href="#">FAQ</a></p>
+                                    <p><a href="#">CONTACT</a></p>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <p>CUSTOMER SERVICE</p>
+                                    <p>info@car.com</p>
+                                    <p>240-865-3730</p>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <p>3926 Calvin Street</p>
+                                    <p>Baltimore, Maryland,</p>
+                                    <p>21201, United States</p>
+                                    <div class="social-icons">
+                                        <a href="#"><i class="bi bi-facebook"></i></a>
+                                        <a href="#"><i class="bi bi-instagram"></i></a>
+                                        <a href="#"><i class="bi bi-youtube"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
                 </div>
             </div>
         </div>
+    </main>
 
-
-          <footer class="footer mt-auto">
-            <div class="container text-center">
-              <div class="row justify-content-center">
-                <div>
-                  <img src="./360_F_493639968_ZqpYbW6DqzOqIMCIUbnrYdJVVJnDDTvZ-removebg-preview.png" alt="Logo"
-                    class="img-fluid" style="max-height: 100px;" />
-                </div>
-              </div>
-              <hr />
-              <div class="row text-white justify-content-center">
-                <div class="col-md-3 mb-3">
-                  <p><a href="#">ABOUT US</a></p>
-                  <p><a href="#">FAQ</a></p>
-                  <p><a href="#">CONTACT</a></p>
-                </div>
-                <div class="col-md-3 mb-3">
-                  <p>CUSTOMER SERVICE</p>
-                  <p>info@car.com</p>
-                  <p>240-865-3730</p>
-                </div>
-                <div class="col-md-3 mb-3">
-                  <p>3926 Calvin Street</p>
-                  <p>Baltimore, Maryland,</p>
-                  <p>21201, United State</p>
-                  <div class="social-icons">
-                    <a href="#"><i class="bi bi-facebook"></i></a>
-                    <a href="#"><i class="bi bi-instagram"></i></a>
-                    <a href="#"><i class="bi bi-youtube"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </footer>
-        </div>
-
-      </div>
-    </div>
-
-  </main>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
-
 </html>

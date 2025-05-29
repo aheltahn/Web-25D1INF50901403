@@ -13,12 +13,14 @@
       height: 100vh;
       position: relative;
     }
+
     .overlay {
       background-color: rgba(0, 0, 0, 0.7);
       position: absolute;
       inset: 0;
       z-index: 1;
     }
+
     .content-box {
       background: url('https://i.pinimg.com/736x/77/bb/da/77bbdab091bb9f864478c9fa9cbe1fb1.jpg') no-repeat center center;
       background-size: cover;
@@ -35,30 +37,32 @@
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-  
     }
+
     .glass {
-        height: 100%;
-        backdrop-filter: blur(20px);
-        background-color: rgba(0, 0, 0, 0.4);
-        border-radius: 10px;
-        padding: 0px 100px;
-        color: white;
-        width: 50%; /* Thay đổi tại đây */
-        max-width: none; /* Gỡ giới hạn chiều rộng */
-    
-      }
-      
+      height: 100%;
+      backdrop-filter: blur(20px);
+      background-color: rgba(0, 0, 0, 0.4);
+      border-radius: 10px;
+      padding: 0px 100px;
+      color: white;
+      width: 50%;
+      max-width: none;
+      overflow-y: auto;
+    }
+
     .welcome-section {
       text-align: center;
       color: white;
       padding: 40px;
       flex: 1;
     }
+
     .social-icons i {
       margin: 0 10px;
       font-size: 1.5rem;
     }
+
     .brand-link {
       position: fixed;
       top: 20px;
@@ -69,6 +73,69 @@
       z-index: 3;
       text-decoration: none;
     }
+
+    @media (max-width: 767.98px) {
+      .content-box {
+        flex-direction: column;
+        width: 95%;
+        height: auto;
+        padding: 10px 5px;
+      }
+    
+      .glass {
+        width: 100%;
+        padding: 10px 10px !important;
+        height: auto;
+        overflow-y: visible;
+      }
+    
+      .welcome-section {
+        display: none !important;
+      }
+    
+      .form-control-lg {
+        font-size: 13px !important;
+        padding: 0.35rem 0.5rem !important;
+        height: 32px !important;
+      }
+    
+      .glass .form-label {
+        font-size: 12px;
+        margin-bottom: 0.2rem;
+      }
+    
+      .glass .mb-4 {
+        margin-bottom: 0.3rem !important;
+      }
+    
+      .btn {
+        padding: 0.35rem 0.9rem;
+        font-size: 13px;
+        height: 36px;
+        line-height: 1.2; /* hoặc 1 nếu vẫn chưa cân */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 0.35rem;
+      }
+    
+      .row > div {
+        padding-left: 4px;
+        padding-right: 4px;
+      }
+    
+      form#registerForm p.mt-3 {
+        font-size: 12px;
+        margin-top: 0.5rem !important;
+      }
+    
+      h1.h4 {
+        font-size: 0.95rem;
+        margin-bottom: 0.6rem;
+        margin-top: 0.3rem;
+      }
+    }
+    
   </style>
 </head>
 <body class="h-100 m-0">
@@ -76,48 +143,47 @@
   <div class="bg-fullscreen">
     <div class="overlay"></div>
 
-    <div class="content-box ">
-
+    <div class="content-box">
       <!-- Left Register Form -->
       <div class="glass">
         <h1 class="h4 mb-3 mt-4">Create an account</h1>
         <form id="registerForm">
           <div class="row">
             <!-- Cột 1 -->
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
               <!-- Name -->
               <div class="mb-4">
                 <label for="name" class="form-label mb-3">Your name</label>
                 <input type="text" class="form-control form-control-lg" id="name" placeholder="Full name" style="font-size: 18px;" />
               </div>
-        
+
               <!-- Address -->
               <div class="mb-4">
                 <label for="address" class="form-label mb-3">Address</label>
                 <input type="text" class="form-control form-control-lg" id="address" placeholder="123 Main St" style="font-size: 18px;" />
               </div>
-        
+
               <!-- Phone Number -->
               <div class="mb-4">
                 <label for="phoneNumber" class="form-label mb-3">Phone Number</label>
                 <input type="tel" class="form-control form-control-lg" id="phoneNumber" placeholder="0123456789" style="font-size: 18px;" />
               </div>
             </div>
-        
+
             <!-- Cột 2 -->
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
               <!-- Email -->
               <div class="mb-4">
                 <label for="email" class="form-label mb-3">Your email</label>
                 <input type="email" class="form-control form-control-lg" id="email" placeholder="name@gmail.com" style="font-size: 18px;" />
               </div>
-        
+
               <!-- Password -->
               <div class="mb-4">
                 <label for="password" class="form-label mb-3">Password</label>
                 <input type="password" class="form-control form-control-lg" id="password" placeholder="••••••••" />
               </div>
-        
+
               <!-- Confirm Password -->
               <div class="mb-4">
                 <label for="confirmPassword" class="form-label mb-3">Confirm password</label>
@@ -125,10 +191,10 @@
               </div>
             </div>
           </div>
-        
+
           <!-- Submit Button -->
           <button type="submit" class="btn btn-dark w-100 py-3">CREATE AN ACCOUNT</button>
-        
+
           <!-- Already have account -->
           <p class="mt-3 text-white text-center">
             Already have an account?
@@ -136,22 +202,24 @@
           </p>
         </form>
       </div>
-          <!-- Right Welcome -->
-          <div class="welcome-section">
-            <h2 class="display-4 fw-bold">Welcome!</h2>
-            <h3>To Our Nem Website</h3>
-            <p class="mt-3 px-3">
-                Explore a new journey with our premium cars — stylish, powerful, and built to inspire every drive.
-            </p>
-            <div class="social-icons mt-4">
-              <i class="fab fa-instagram text-white"></i>
-              <i class="fab fa-facebook text-white"></i>
-              <i class="fab fa-twitter text-white"></i>
-              <i class="fab fa-github text-white"></i>
-            </div>
-          </div>
+
+      <!-- Right Welcome -->
+      <div class="welcome-section d-none d-md-block">
+        <h2 class="display-4 fw-bold">Welcome!</h2>
+        <h3>To Our Nem Website</h3>
+        <p class="mt-3 px-3">
+          Explore a new journey with our premium cars — stylish, powerful, and built to inspire every drive.
+        </p>
+        <div class="social-icons mt-4">
+          <i class="fab fa-instagram text-white"></i>
+          <i class="fab fa-facebook text-white"></i>
+          <i class="fab fa-twitter text-white"></i>
+          <i class="fab fa-github text-white"></i>
+        </div>
+      </div>
     </div>
   </div>
+
   <script src="script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

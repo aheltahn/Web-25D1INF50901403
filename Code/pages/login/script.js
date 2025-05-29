@@ -6,6 +6,14 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
 
 
+    // Trước khi login, kiểm tra nếu đã có user đăng nhập trong localStorage thì không cho đăng nhập mới
+    const currentUser = JSON.parse(localStorage.getItem('user'));
+    if (currentUser && currentUser.token) {
+      alert('Bạn đã đăng nhập rồi, vui lòng đăng xuất trước khi đăng nhập tài khoản khác.');
+      return;
+    }
+
+
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
 
@@ -19,55 +27,36 @@ document.addEventListener('DOMContentLoaded', function () {
     try {
       const response = await fetch('https://carssaleweb-ghb6hjdmhuajejad.southeastasia-01.azurewebsites.net/api/Auth/Login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          Email: email,
-          Password: password
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ Email: email, Password: password })
       });
 
 
       if (response.status === 200) {
         const data = await response.json();
-        console.log("API trả về data:", data); // Debug data trả về
-
-
         alert(data.message || 'Đăng nhập thành công!');
 
 
-       const userData = {
-        UserID: data.userId,
-        role: data.role,
-        email: email,
-        token: data.token  // Lưu token JWT
- };
+        const userData = {
+          UserID: data.userId,
+          role: data.role,
+          email: email,
+          token: data.token
+        };
 
 
-localStorage.setItem('user', JSON.stringify(userData));
-sessionStorage.setItem('user', JSON.stringify(userData));
+        // Lưu vào localStorage để đồng bộ đăng nhập các tab
+        localStorage.setItem('user', JSON.stringify(userData));
 
 
-        console.log("User trong localStorage:", localStorage.getItem('user')); // Debug kiểm tra lưu
-
-
-        // Nếu trang login mở từ trang chính thì gọi hàm cập nhật UI nút login/logout
-        if (window.opener && typeof window.opener.onLoginSuccess === 'function') {
-          window.opener.onLoginSuccess(userData);
-          window.close(); // Đóng popup nếu dùng popup
-          return;
-        }
-
-
-        // Nếu không phải popup, chuyển hướng bình thường theo role
+        // Chuyển hướng theo role
         if (data.role === 'Admin') {
           window.location.href = '../OrderManagement/index.html';
-        } else {
+        } else if (data.role === 'User') {
           window.location.href = '../home/index.html';
+        } else {
+          alert('Tài khoản không có vai trò hợp lệ!');
         }
-
-
       } else if (response.status === 401) {
         alert('Sai email hoặc mật khẩu!');
       } else {

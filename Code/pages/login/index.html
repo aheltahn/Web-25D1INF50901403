@@ -7,18 +7,26 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
     .bg-fullscreen {
       background: url('https://i.pinimg.com/736x/77/bb/da/77bbdab091bb9f864478c9fa9cbe1fb1.jpg') no-repeat center center;
       background-size: cover;
       height: 100vh;
       position: relative;
     }
+
     .overlay {
       background-color: rgba(0, 0, 0, 0.7);
       position: absolute;
       inset: 0;
       z-index: 1;
     }
+
     .content-box {
       background: url('https://i.pinimg.com/736x/77/bb/da/77bbdab091bb9f864478c9fa9cbe1fb1.jpg') no-repeat center center;
       background-size: cover;
@@ -35,31 +43,33 @@
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
- 
+      overflow: hidden;
     }
+
     .glass {
-        height: 100%;
-        backdrop-filter: blur(20px);
-        background-color: rgba(0, 0, 0, 0.4);
-        border-radius: 10px;
-        padding: 40px 100px;
-        color: white;
-        width: 50%; /* Thay đổi tại đây */
-        max-width: none; /* Gỡ giới hạn chiều rộng */
-        padding-top: 0px;
-   
-      }
-     
+      height: 100%;
+      backdrop-filter: blur(20px);
+      background-color: rgba(0, 0, 0, 0.4);
+      border-radius: 10px;
+      padding: 40px 100px;
+      color: white;
+      width: 50%;
+      max-width: none;
+      overflow-y: auto;
+    }
+
     .welcome-section {
       text-align: center;
       color: white;
       padding: 40px;
       flex: 1;
     }
+
     .social-icons i {
       margin: 0 10px;
       font-size: 1.5rem;
     }
+
     .brand-link {
       position: fixed;
       top: 20px;
@@ -70,22 +80,44 @@
       z-index: 3;
       text-decoration: none;
     }
+
+    @media (max-width: 768px) {
+      .content-box {
+        flex-direction: column;
+        width: 90%;
+        height: auto;
+        padding: 20px 10px;
+      }
+
+      .glass {
+        width: 100%;
+        padding: 20px;
+        height: auto;
+      }
+
+      .welcome-section {
+        display: none;
+      }
+
+      .brand-link {
+        font-size: 18px;
+        top: 10px;
+        left: 10px;
+      }
+    }
   </style>
 </head>
 <body class="h-100 m-0">
-
-
   <div class="bg-fullscreen">
     <div class="overlay"></div>
 
-
     <div class="content-box">
       <!-- Left Welcome -->
-      <div class="welcome-section">
+      <div class="welcome-section d-none d-md-block">
         <h2 class="display-4 fw-bold">Welcome!</h2>
         <h3>To Our Nem Website</h3>
         <p class="mt-3 px-3">
-            Explore a new journey with our premium cars — stylish, powerful, and built to inspire every drive.
+          Explore a new journey with our premium cars — stylish, powerful, and built to inspire every drive.
         </p>
         <div class="social-icons mt-4">
           <i class="fab fa-instagram text-white"></i>
@@ -95,25 +127,22 @@
         </div>
       </div>
 
-
       <!-- Right Login Form -->
       <div class="glass">
         <div class="d-flex justify-content-center mb-3">
-            <img src="./360_F_493639968_ZqpYbW6DqzOqIMCIUbnrYdJVVJnDDTvZ-removebg-preview.png"
-                 alt="Logo" class="img-fluid" style="max-height: 150px;">
-          </div>
+          <img src="./360_F_493639968_ZqpYbW6DqzOqIMCIUbnrYdJVVJnDDTvZ-removebg-preview.png"
+               alt="Logo" class="img-fluid" style="max-height: 150px;">
+        </div>
         <h1 class="h4 mb-3">Sign in to your account</h1>
-       
-   <form id="login-form">
 
-
+        <form id="login-form">
           <div class="mb-4">
             <label for="email" class="form-label mb-3">Your email</label>
-            <input type="email"  class="form-control form-control-lg" id="email" placeholder="name@gmail.com"  style="font-size: 18px;"/>
+            <input type="email" class="form-control form-control-lg" id="email" placeholder="name@gmail.com" style="font-size: 18px;" required />
           </div>
           <div class="mb-4">
             <label for="password" class="form-label mb-3">Password</label>
-            <input type="password"  class="form-control form-control-lg" id="password" placeholder="••••••••"/>
+            <input type="password" class="form-control form-control-lg" id="password" placeholder="••••••••" required />
           </div>
           <div class="d-flex justify-content-between align-items-center mb-4">
             <div class="form-check">
@@ -126,15 +155,13 @@
           <p class="mt-3 text-white text-center">
             Don’t have an account yet?
             <a href="../register/index.html" class="text-info text-decoration-underline">Sign up</a>
-          </p>    
-    </form>
-
-
+          </p>
+        </form>
       </div>
     </div>
   </div>
+
   <script src="./script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

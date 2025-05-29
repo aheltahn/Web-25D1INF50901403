@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,7 +7,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <title>Document</title>
+    <title>Notification Management</title>
     <style>
         html,
         body {
@@ -143,124 +142,295 @@
             border-radius: 0.5rem;
             padding: 10px 15px;
         }
+
         .bg-gradient-blue {
             background: linear-gradient(180deg, #385279 0%, rgba(0, 31, 77, 0) 100%);
-          }
-        
-          .container.text-light * {
+        }
+
+        .container.text-light * {
             color: #636567;
-          }
-          .custom-input {
-            background-color: #393e42; /* màu xám Bootstrap (gray-600) */
+        }
+
+        .custom-input {
+            background-color: #393e42;
             color: white;
-            border: 1px solid #627d99; /* viền tối hơn */
-          }
-        
-          .custom-input::placeholder {
-            color: #ffffff; /* chữ placeholder màu xám nhạt */
-          }
-        
-          .custom-input:focus {
+            border: 1px solid #627d99;
+        }
+
+        .custom-input::placeholder {
+            color: #ffffff;
+        }
+
+        .custom-input:focus {
             background-color: #5a6268;
             color: white;
             border-color: #343a40;
             box-shadow: none;
-          }
-    .btn-custom-gray {
-        background-color: #1e2122;
-        color: white;
-        border-color: #343a40;
-    }
+        }
 
-    .btn-custom-gray:hover,
-    .btn-custom-gray:focus {
-        background-color: #6c757d;
-        border-color: #343a40;
-        color: white;
-    }
+        .btn-custom-gray {
+            background-color: #1e2122;
+            color: white;
+            border-color: #343a40;
+        }
 
-    .btn-custom-gray-outline {
-        background-color: transparent;
-        border: 1px solid #343a40;
-    }
+        .btn-custom-gray:hover,
+        .btn-custom-gray:focus {
+            background-color: #6c757d;
+            border-color: #343a40;
+            color: white;
+        }
 
-    .btn-custom-gray-outline:hover,
-    .btn-custom-gray-outline:focus {
-        background-color: #5a6268;
-        color: white;
-        border-color: #343a40;
-    }
+        .btn-custom-gray-outline {
+            background-color: transparent;
+            border: 1px solid #343a40;
+        }
 
-    .btn-custom-gray.active {
-        background-color: #5a6268 !important;
-        color: white !important;
-        border-color: #343a40 !important;
-    }
-</style>
+        .btn-custom-gray-outline:hover,
+        .btn-custom-gray-outline:focus {
+            background-color: #5a6268;
+            color: white;
+            border-color: #343a40;
+        }
+
+        .btn-custom-gray.active {
+            background-color: #5a6268 !important;
+            color: white !important;
+            border-color: #343a40 !important;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 991px) {
+            .sidebar-custom {
+                position: fixed;
+                top: 0;
+                left: -250px;
+                width: 250px;
+                height: 100%;
+                z-index: 1050;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar-custom.show {
+                left: 0;
+            }
+
+            .col-md-9,
+            .col-lg-10 {
+                width: 100%;
+                padding: 0 15px !important;
+            }
+
+            .container.mt-5 {
+                margin-top: 2rem !important;
+                padding: 1rem;
+            }
+
+            .table-responsive {
+                font-size: 0.9rem;
+            }
+
+            .table th,
+            .table td {
+                padding: 0.5rem;
+            }
+
+            .d-flex.flex-wrap.align-items-center {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .d-flex.gap-3.mb-3,
+            .d-flex.flex-wrap.gap-3 {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .form-control.w-auto,
+            .form-select.w-auto {
+                width: 100% !important;
+                max-width: 100%;
+            }
+
+            .btn-group {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .btn-group .btn {
+                flex: 1;
+                text-align: center;
+            }
+
+            .modal-lg {
+                max-width: 90%;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .sidebar-custom {
+                width: 200px;
+                left: -200px;
+            }
+
+            .sidebar-custom.show {
+                left: 0;
+            }
+
+            .table-responsive {
+                font-size: 0.85rem;
+            }
+
+            .table th,
+            .table td {
+                padding: 0.4rem;
+            }
+
+            .modal-dialog {
+                margin: 0.5rem;
+            }
+
+            .modal-body {
+                padding: 1rem;
+            }
+
+            .modal-footer {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .modal-footer .btn {
+                width: 100%;
+            }
+
+            button[name="logInBtn"],
+            button[name="registerBtn"],
+            button[name="logOutBtn"] {
+                width: 100px;
+                height: 40px;
+                font-size: 0.85rem;
+            }
+
+            .container.text-light h1,
+            .container.text-light h5 {
+                font-size: 1.25rem;
+            }
+
+            .footer {
+                padding: 20px 0;
+                font-size: 0.85rem;
+            }
+
+            .footer .col-md-3 {
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+
+            .footer .logo {
+                max-width: 100px;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .table-responsive {
+                font-size: 0.8rem;
+            }
+
+            .table th,
+            .table td {
+                padding: 0.3rem;
+            }
+
+            .d-flex.justify-content-between.align-items-center.mt-4 {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .btn-custom-gray,
+            .btn-custom-gray-outline {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        .sidebar-gradient {
+          background: linear-gradient(to right, #259ce4, rgba(18, 76, 242, 1));
+        }
+    </style>
 </head>
-
 <body class="text-white">
     <main>
         <div class="container-fluid">
             <div class="row min-vh-100">
+               <!-- Nút toggle hiện trên thiết bị nhỏ -->
+<nav class="navbar navbar-dark d-md-none">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <span class="navbar-brand ms-2">Menu</span>
+  </div>
+</nav>
 
-                <!-- Sidebar -->
-                <div class="col-md-3 col-lg-2 sidebar-custom text-white p-3">
-                    <a href="/"
-                        class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                        <span class="fs-4 gradient-text fw-bold">Management Pages</span>
-                    </a>
-                    <hr />
-                    <ul class="nav nav-pills flex-column mb-auto">
-                        <li class="nav-item mb-2">
-                            <a href="../CarManagement/index.html"  class="nav-link text-white">
-                                <i class="fas fa-car me-2"></i> Car Management
-                            </a>
-                        </li>
-                        <li class=" mb-2">
-                            <a href="../OrderManagement/index.html" class="nav-link text-white">
-                                <i class="fas fa-file-invoice me-2"></i> Order Management
-                            </a>
-                        </li>
-                        <li class=" mb-2">
-                            <a href="../PaymentManagement/index.html" class="nav-link text-white">
-                                <i class="fas fa-money-bill-wave me-2"></i> Payment Management
-                            </a>
-                        </li>
-                        <li class=" mb-2">
-                            <a href="../NotificationManagement/index.html" class="nav-link active" aria-current="page">
-                                <i class="fas fa-bell me-2"></i> Notification Management
-                            </a>
-                        </li>
-                        <li class=" mb-2">
-                            <a href="../FinancialManagement/index.html" class="nav-link text-white">
-                                <i class="fas fa-chart-line me-2"></i> Financial Management
-                            </a>
-                        </li>
-                    </ul>
-                    <hr />
-                </div>
+<!-- Sidebar -->
+<div class="col-md-3 col-lg-2 p-0">
+  <div class="collapse d-md-block text-white p-3 h-100 sidebar-custom" id="sidebarMenu">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <span class="fs-4 gradient-text fw-bold">Management Pages</span>
+    </a>
+    <hr />
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item dropdown mb-2">
+        <a href="../CarManagement/index.html" class="nav-link text-white" data-bs-toggle="dropdown">
+          <i class="fas fa-car me-2"></i> Car Management
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark">
+          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addModal">Add</a></li>
+          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editModal">Edit</a></li>
+          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#viewModal">View</a></li>
+        </ul>
+      </li>
+      <li class="mb-2">
+        <a href="../OrderManagement/index.html" class="nav-link text-white">
+          <i class="fas fa-file-invoice me-2"></i> Order Management
+        </a>
+      </li>
+      <li class="mb-2">
+        <a href="../PaymentManagement/index.html" class="nav-link text-white">
+          <i class="fas fa-money-bill-wave me-2"></i> Payment Management
+        </a>
+      </li>
+      <li class="mb-2">
+        <a href="../NotificationManagement/index.html" class="nav-link active dropdown-toggle" aria-current="page">
+          <i class="fas fa-bell me-2"></i> Notification Management
+        </a>
+      </li>
+      <li class="mb-2">
+        <a href="../FinancialManagement/index.html" class="nav-link text-white">
+          <i class="fas fa-chart-line me-2"></i> Financial Management
+        </a>
+      </li>
+    </ul>
+    <hr />
+  </div>
+</div>
 
-                <!-- Nội dung chính -->
-                <div class="col-md-9 col-lg-10 bg-black text-white pl-0 pr-0 ml-0 mr-0">
+                <!-- Main Content -->
+                <div class="col-md-9 col-lg-10 bg-black text-white">
                     <header class="pt-1 pb-3 text-white">
                         <div class="container">
-                            <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center">
                                 <div>
-                                    <img src="./360_F_493639968_ZqpYbW6DqzOqIMCIUbnrYdJVVJnDDTvZ-removebg-preview.png"
-                                        alt="Logo" class="img-fluid" style="max-height: 100px;" />
+                                    <img src="./360_F_493639968_ZqpYbW6DqzOqIMCIUbnrYdJVVJnDDTvZ-removebg-preview.png" alt="Logo" class="img-fluid" style="max-height: 100px;" />
                                 </div>
-
+                                <button class="navbar-toggler d-lg-none ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle sidebar">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
                                 <div class="d-flex align-items-center">
-                                    <div>
-                                        <button type="button" name="logInBtn"
-                                            class="btn btn-outline-light me-2">Logout</button>
-                                    </div>
+                                    <button type="button" name="logInBtn" class="btn btn-outline-light me-2">Logout</button>
                                     <div class="dropdown ms-3">
-                                        <a href="#" class="d-block link-light text-decoration-none dropdown-toggle"
-                                            id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img src="https://images.thedirect.com/media/photos/avatar3.png"
-                                                alt="Avatar" width="40" height="40" class="rounded-circle" />
+                                        <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img src="https://images.thedirect.com/media/photos/avatar3.png" alt="Avatar" width="40" height="40" class="rounded-circle" />
                                         </a>
                                         <ul class="dropdown-menu text-small bg-dark" aria-labelledby="dropdownUser1">
                                             <li><a class="dropdown-item text-white" href="#">Settings</a></li>
@@ -279,33 +449,30 @@
                             <input type="number" class="form-control custom-input" id="userId" name="userId" placeholder="Nhập UserID"
                               required />
                           </div>
-            
-            
+           
+           
                           <div class="mb-3">
                             <label for="title" class="form-label text-white">Title</label>
                             <input type="text" class="form-control custom-input" id="title" name="title" placeholder="Nhập tiêu đề thông báo"
                               required />
                           </div>
-            
-            
+           
+           
                           <div class="mb-3">
                             <label for="content" class="form-label text-white">Content</label>
-                            <input type="text" class="form-control custom-input" id="content" name="content"
-                              placeholder="Nhập nội dung thông báo" required />
+                            <textarea class="form-control custom-input" id="content" name="content"
+                              placeholder="Nhập nội dung thông báo" rows="4" required></textarea>
                           </div>
-            
-            
+           
                           <button type="submit" class="btn btn-primary text-white">Submit</button>
                         </form>
                       </div>
-                        
 
                     <footer class="footer mt-auto">
                         <div class="container text-center">
                             <div class="row justify-content-center">
                                 <div>
-                                    <img src="./360_F_493639968_ZqpYbW6DqzOqIMCIUbnrYdJVVJnDDTvZ-removebg-preview.png"
-                                        alt="Logo" class="img-fluid" style="max-height: 100px;" />
+                                    <img src="./360_F_493639968_ZqpYbW6DqzOqIMCIUbnrYdJVVJnDDTvZ-removebg-preview.png" alt="Logo" class="img-fluid" style="max-height: 100px;" />
                                 </div>
                             </div>
                             <hr />
@@ -323,7 +490,7 @@
                                 <div class="col-md-3 mb-3">
                                     <p>3926 Calvin Street</p>
                                     <p>Baltimore, Maryland,</p>
-                                    <p>21201, United State</p>
+                                    <p>21201, United States</p>
                                     <div class="social-icons">
                                         <a href="#"><i class="bi bi-facebook"></i></a>
                                         <a href="#"><i class="bi bi-instagram"></i></a>
@@ -334,13 +501,10 @@
                         </div>
                     </footer>
                 </div>
-
             </div>
         </div>
-
     </main>
 
     <script src="script.js"></script>
 </body>
-
 </html>
