@@ -315,10 +315,18 @@
                 <thead class="table-light">
                   <tr>
                     <th><input type="checkbox"></th>
-                    <th>Invoice</th>
+                    <th>#</th>
                     <th>Name</th>
-                    <th>Date</th>
-                    <th>Amount</th>
+                    <th>ImageURL</th>
+                    <th>Year</th>
+                    <th>Fuel Type</th>
+                    <th>Transmission</th>
+                    <th>Engine Capacity</th>
+                    <th>Color</th>
+                    <th>Model</th>
+                    <th>Brand</th>
+                    <th>Category</th>
+                    <th>Price</th>
                     <th>Status</th>
                     <th>Actions</th>
                   </tr>
@@ -426,113 +434,113 @@
           </div>
 
 
-          <!-- Edit Modal -->
-          <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-              <div class="modal-content bg-dark text-light">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="editModalLabel">Edit Car Model</h5>
-                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <!-- Form sửa -->
-                  <form>
-                    <div class="mb-3">
-                      <label class="form-label">CarModel ID</label>
-                      <input type="text" class="form-control bg-secondary text-light" value="CM001" readonly>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Car Name</label>
-                      <input type="text" class="form-control bg-secondary text-light" value="Toyota Camry">
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Year</label>
-                      <input type="number" class="form-control bg-secondary text-light" value="2024">
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Fuel Type</label>
-                      <input type="text" class="form-control bg-secondary text-light" value="Petrol">
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Transmission</label>
-                      <input type="text" class="form-control bg-secondary text-light" value="Automatic">
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Engine Capacity</label>
-                      <input type="text" class="form-control bg-secondary text-light" value="2.0L">
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Color</label>
-                      <input type="text" class="form-control bg-secondary text-light" value="Black">
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Image URL</label>
-                      <input type="text" class="form-control bg-secondary text-light"
-                        value="https://example.com/car.jpg">
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Model</label>
-                      <input type="text" class="form-control bg-secondary text-light" value="XLE">
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Unit Price</label>
-                      <input type="number" class="form-control bg-secondary text-light" value="55000">
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Brand ID</label>
-                      <input type="text" class="form-control bg-secondary text-light" value="BR001">
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Category ID</label>
-                      <input type="text" class="form-control bg-secondary text-light" value="CAT001">
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Status ID</label>
-                      <input type="text" class="form-control bg-secondary text-light" value="ST001">
-                    </div>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary">Update</button>
-                </div>
-              </div>
-            </div>
+        <!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-dark text-light">
+          <div class="modal-header">
+              <h5 class="modal-title" id="editModalLabel">Edit Car Model</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
+          <div class="modal-body">
+              <!-- Form sửa -->
+              <form id="editCarForm">
+                  <div class="mb-3">
+                      <label class="form-label">CarModel ID</label>
+                      <input type="text" id="editCarModelID" class="form-control bg-secondary text-light" readonly>
+                  </div>
+                  <div class="mb-3">
+                      <label class="form-label">Car Name</label>
+                      <input type="text" id="editCarName" class="form-control bg-secondary text-light">
+                  </div>
+                  <div class="mb-3">
+                      <label class="form-label">Year</label>
+                      <input type="number" id="editYear" class="form-control bg-secondary text-light">
+                  </div>
+                  <div class="mb-3">
+                      <label class="form-label">Fuel Type</label>
+                      <input type="text" id="editFuelType" class="form-control bg-secondary text-light">
+                  </div>
+                  <div class="mb-3">
+                      <label class="form-label">Transmission</label>
+                      <input type="text" id="editTransmission" class="form-control bg-secondary text-light">
+                  </div>
+                  <div class="mb-3">
+                      <label class="form-label">Engine Capacity</label>
+                      <input type="number" step="0.1" id="editEngineCapacity" class="form-control bg-secondary text-light">
+                  </div>
+                  <div class="mb-3">
+                      <label class="form-label">Color</label>
+                      <input type="text" id="editColor" class="form-control bg-secondary text-light">
+                  </div>
+                  <div class="mb-3">
+                      <label class="form-label">Image URL</label>
+                      <input type="text" id="editImageURL" class="form-control bg-secondary text-light">
+                  </div>
+                  <div class="mb-3">
+                      <label class="form-label">Model</label>
+                      <input type="text" id="editModel" class="form-control bg-secondary text-light">
+                  </div>
+                  <div class="mb-3">
+                      <label class="form-label">Unit Price</label>
+                      <input type="number" step="0.01" id="editUnitPrice" class="form-control bg-secondary text-light">
+                  </div>
+                  <div class="mb-3">
+                      <label class="form-label">Brand ID</label>
+                      <input type="number" id="editBrandID" class="form-control bg-secondary text-light">
+                  </div>
+                  <div class="mb-3">
+                      <label class="form-label">Category ID</label>
+                      <input type="number" id="editCategoryID" class="form-control bg-secondary text-light">
+                  </div>
+                  <div class="mb-3">
+                      <label class="form-label">Status ID</label>
+                      <input type="number" id="editStatusID" class="form-control bg-secondary text-light">
+                  </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" form="editCarForm" class="btn btn-primary">Update</button>
+          </div>
+      </div>
+  </div>
+</div>
 
 
           <!-- View Modal -->
           <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-md">
-              <div class="modal-content bg-dark text-light">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="viewModalLabel">View Car Model</h5>
-                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+                <div class="modal-content bg-dark text-light">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="viewModalLabel">View Car Model</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>CarModel ID:</strong> <span id="viewCarModelID"></span></p>
+                        <p><strong>Car Name:</strong> <span id="viewCarName"></span></p>
+                        <p><strong>Year:</strong> <span id="viewYear"></span></p>
+                        <p><strong>Fuel Type:</strong> <span id="viewFuelType"></span></p>
+                        <p><strong>Transmission:</strong> <span id="viewTransmission"></span></p>
+                        <p><strong>Engine Capacity:</strong> <span id="viewEngineCapacity"></span></p>
+                        <p><strong>Color:</strong> <span id="viewColor"></span></p>
+                        <p><strong>Image URL:</strong> <a id="viewImageURL" href="#" target="_blank" class="text-info">View Image</a></p>
+                        <p><strong>Model:</strong> <span id="viewModel"></span></p>
+                        <p><strong>Unit Price:</strong> <span id="viewUnitPrice"></span></p>
+                        <p><strong>Brand ID:</strong> <span id="viewBrandID"></span></p>
+                        <p><strong>Brand Name:</strong> <span id="viewBrandName"></span></p>
+                        <p><strong>Category ID:</strong> <span id="viewCategoryID"></span></p>
+                        <p><strong>Category Name:</strong> <span id="viewCategoryName"></span></p>
+                        <p><strong>Status ID:</strong> <span id="viewStatusID"></span></p>
+                        <p><strong>Status Name:</strong> <span id="viewStatusName"></span></p>
+                        <p><strong>Is Hidden:</strong> <span id="viewIsHidden"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                  <p><strong>CarModel ID:</strong> CM001</p>
-                  <p><strong>Car Name:</strong> Toyota Camry</p>
-                  <p><strong>Year:</strong> 2024</p>
-                  <p><strong>Fuel Type:</strong> Petrol</p>
-                  <p><strong>Transmission:</strong> Automatic</p>
-                  <p><strong>Engine Capacity:</strong> 2.0L</p>
-                  <p><strong>Color:</strong> Black</p>
-                  <p><strong>Image URL:</strong> <a href="https://example.com/car.jpg" target="_blank"
-                      class="text-info">View Image</a></p>
-                  <p><strong>Model:</strong> XLE</p>
-                  <p><strong>Unit Price:</strong> $55,000</p>
-                  <p><strong>Brand ID:</strong> BR001</p>
-                  <p><strong>Category ID:</strong> CAT001</p>
-                  <p><strong>Status ID:</strong> ST001</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
 
 
           <footer class="footer mt-auto">

@@ -271,46 +271,34 @@
                             </div>
                         </div>
                     </header>
-                    <div class="container mt-5 p-4  bg-gradient-blue text-light rounded shadow">
-                        <!-- Header Controls -->
-                        <form>
-                            <div class="mb-3">
-                              <label for="notificationId" class="form-label text-white">NotificationID</label>
-                              <input type="text" class="form-control" id="notificationId" name="notificationId">
-                            </div>
-                          
-                            <div class="mb-3">
-                                <label for="userId" class="form-label text-white">UserID</label>
-                                <input type="text" class="form-control" id="userId" name="userId">
-                              </div>
-                              
-                            <div class="mb-3">
-                              <label for="title" class="form-label text-white">Title</label>
-                              <input type="text" class="form-control" id="title" name="title">
-                            </div>
-                            <div class="mb-3">
-                              <label for="sentDate" class="form-label text-white">SentDate</label>
-                              <input type="datetime-local" class="form-control" id="sentDate" name="sentDate">
-                            </div>
-                          
-                            <div class="mb-3">
-                              <label for="isRead" class="form-label text-white">IsRead</label>
-                              <select class="form-select" id="isRead" name="isRead">
-                                <option value="true">Read</option>
-                                <option value="false">Unread</option>
-                              </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="content" class="form-label text-white">Content</label>
-                                <input type="text" class="form-control" id="content" name="content">
-                              </div>
-                            
-                          
-                         
-                          
-                            <button type="submit" class="btn btn-primary text-white">Submit</button>
-                          </form>
-                    </div>
+                    <div class="container mt-5 p-4 bg-gradient-blue text-light rounded shadow">
+         
+                        <form id="notificationForm">
+                          <div class="mb-3">
+                            <label for="userId" class="form-label text-white">UserID</label>
+                            <input type="number" class="form-control custom-input" id="userId" name="userId" placeholder="Nhập UserID"
+                              required />
+                          </div>
+            
+            
+                          <div class="mb-3">
+                            <label for="title" class="form-label text-white">Title</label>
+                            <input type="text" class="form-control custom-input" id="title" name="title" placeholder="Nhập tiêu đề thông báo"
+                              required />
+                          </div>
+            
+            
+                          <div class="mb-3">
+                            <label for="content" class="form-label text-white">Content</label>
+                            <input type="text" class="form-control custom-input" id="content" name="content"
+                              placeholder="Nhập nội dung thông báo" required />
+                          </div>
+            
+            
+                          <button type="submit" class="btn btn-primary text-white">Submit</button>
+                        </form>
+                      </div>
+                        
 
                     <footer class="footer mt-auto">
                         <div class="container text-center">

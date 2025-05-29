@@ -22,6 +22,9 @@ function formatCurrency(amount, unitCode) {
     }).format(amount);
 }
 
+// Danh sách trạng thái đơn hàng cho dropdown
+const orderStatuses = ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'];
+
 // Gọi API và hiển thị danh sách đơn hàng
 document.addEventListener('DOMContentLoaded', function () {
     const tbody = document.querySelector('tbody');
@@ -30,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    tbody.innerHTML = `<tr><td colspan="7" class="text-center">Đang tải dữ liệu...</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" class="text-center">Đang tải dữ liệu...</td></tr>`;
 
     fetch('https://carssaleweb-ghb6hjdmhuajejad.southeastasia-01.azurewebsites.net/api/Order/GetOrders', {
         headers: {
@@ -48,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
         tbody.innerHTML = '';
 
         if (!Array.isArray(data) || data.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="7" class="text-center">Không có đơn hàng nào.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="8" class="text-center">Không có đơn hàng nào.</td></tr>`;
             return;
         }
 
@@ -61,9 +64,15 @@ document.addEventListener('DOMContentLoaded', function () {
             const userId = order.UserID || order.userId || order.userID || 'N/A';
             const carModelId = order.CarModelID || order.carModelId || order.carModelID || 'N/A';
             const trackingId = order.OrderTrackingID || order.orderTrackingId || order.orderTrackingID || 'N/A';
+            const orderStatus = order.OrderStatus || order.orderStatus || order.status || 'N/A';
+
+            // Tạo dropdown cho trạng thái
+            const statusOptions = orderStatuses.map(status => `
+                <option value="${status}" ${status === orderStatus ? 'selected' : ''}>${status}</option>
+            `).join('');
 
             const row = `
-                <tr>
+                <tr data-order-id="${orderId}">
                     <td>${orderId}</td>
                     <td>${orderDate ? formatDate(orderDate) : 'N/A'}</td>
                     <td>${totalPrice !== undefined && totalPrice !== null && !isNaN(totalPrice) ? formatCurrency(totalPrice, unitCode) : 'N/A'}</td>
@@ -71,16 +80,62 @@ document.addEventListener('DOMContentLoaded', function () {
                     <td>${userId}</td>
                     <td>${carModelId}</td>
                     <td>${trackingId}</td>
+                    <td>
+                        <select class="form-select status-dropdown" data-order-id="${orderId}">
+                            ${statusOptions}
+                        </select>
+                    </td>
                 </tr>
             `;
             tbody.innerHTML += row;
+        });
+
+        // Thêm sự kiện cho các dropdown
+        document.querySelectorAll('.status-dropdown').forEach(dropdown => {
+            dropdown.addEventListener('change', async function () {
+                const orderId = this.getAttribute('data-order-id');
+                const newStatus = this.value;
+
+                if (!orderId || !newStatus) {
+                    alert('Không thể cập nhật trạng thái: Thiếu OrderID hoặc trạng thái mới.');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('https://carssaleweb-ghb6hjdmhuajejad.southeastasia-01.azurewebsites.net/api/Order/UpdateStatus', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer <your-token-here>', // Thay bằng token thực tế
+                            'Role': 'Admin'
+                        },
+                        body: JSON.stringify({
+                            OrderID: parseInt(orderId),
+                            OrderStatus: newStatus
+                        })
+                    });
+
+                    if (response.ok) {
+                        const message = await response.text();
+                        alert(message || 'Cập nhật trạng thái đơn hàng thành công.');
+                    } else {
+                        const errorText = await response.text();
+                        throw new Error(`Lỗi khi cập nhật trạng thái: ${response.status} - ${response.statusText}. Chi tiết: ${errorText}`);
+                    }
+                } catch (error) {
+                    console.error('Lỗi khi cập nhật trạng thái:', error);
+                    alert(error.message);
+                    // Hoàn tác lựa chọn nếu cập nhật thất bại
+                    this.value = orderStatus;
+                }
+            });
         });
     })
     .catch(error => {
         console.error('Lỗi khi gọi API:', error);
         tbody.innerHTML = `
             <tr>
-                <td colspan="7" class="text-center text-danger">Không thể tải dữ liệu đơn hàng: ${error.message}</td>
+                <td colspan="8" class="text-center text-danger">Không thể tải dữ liệu đơn hàng: ${error.message}</td>
             </tr>
         `;
     });
