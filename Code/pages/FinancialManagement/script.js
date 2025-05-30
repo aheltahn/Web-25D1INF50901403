@@ -1,16 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Lấy nút logout
     const logOutBtn = document.getElementsByName('logOutBtn')[0];
-
-    // Đồng bộ logout giữa các tab qua sự kiện localStorage
     window.addEventListener('storage', function (e) {
         if (e.key === 'logout-event') {
             localStorage.removeItem('user');
             window.location.href = '../login/index.html';
         }
     });
-
-    // Xử lý sự kiện đăng xuất
     if (logOutBtn) {
         logOutBtn.addEventListener('click', () => {
             localStorage.removeItem('user');
@@ -20,8 +15,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+
 document.addEventListener('DOMContentLoaded', function () {
-    const tableBody = $('#paymentTable').DataTable();
     const searchInput = document.getElementById('customSearch');
     const lengthSelect = document.getElementById('customLength');
     const prevPageBtn = document.getElementById('prevPage');
@@ -29,10 +24,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const paginationContainer = document.getElementById('customPagination');
     const totalRevenueDiv = document.getElementById('totalRevenue');
 
+
     let payments = [];
     let currentPage = 1;
+    let table;
 
-    // Lấy token từ localStorage
+
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user || !user.token) {
         alert('Vui lòng đăng nhập lại!');
@@ -40,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    // Lấy dữ liệu báo cáo bán hàng
+
     async function fetchSalesReport() {
         try {
             const response = await fetch('https://carssaleweb-ghb6hjdmhuajejad.southeastasia-01.azurewebsites.net/api/SalesReport/GetSalesReport', {
@@ -51,14 +48,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
+
             if (response.ok) {
                 const report = await response.json();
                 console.log('Báo cáo bán hàng:', report);
 
-                // Hiển thị tổng doanh thu
-                totalRevenueDiv.textContent = `Total Revenue: $${report.totalRevenue.toLocaleString()}`;
 
-                // Lấy danh sách chi tiết thanh toán
+                // Hiển thị thông tin
+                totalRevenueDiv.textContent = `Total Revenue: $${report.totalRevenue.toLocaleString()}`;
+                document.getElementById('totalOrders').textContent = report.totalOrders;
+                document.getElementById('completedOrders').textContent = report.completedOrders;
+                document.getElementById('canceledOrders').textContent = report.canceledOrders;
+                document.getElementById('completionRate').textContent = report.completionRate.toFixed(2);
+                document.getElementById('cancellationRate').textContent = report.cancellationRate.toFixed(2);
+                document.getElementById('topCar').textContent = `${report.topSellingCar.carName} (${report.topSellingCar.quantitySold})`;
+
+
                 await fetchPayments();
             } else {
                 const errorText = await response.text();
@@ -72,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Lấy danh sách chi tiết thanh toán
+
     async function fetchPayments() {
         try {
             const response = await fetch('https://carssaleweb-ghb6hjdmhuajejad.southeastasia-01.azurewebsites.net/api/AddPayment/GetPayments', {
@@ -83,10 +88,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
+
             if (response.ok) {
                 payments = await response.json();
                 console.log('Danh sách thanh toán:', payments);
-                displayPayments();
+                renderDataTable();
             } else {
                 const errorText = await response.text();
                 alert(`Lỗi khi lấy dữ liệu thanh toán: ${response.status} - ${errorText}`);
@@ -97,12 +103,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Hiển thị danh sách thanh toán với DataTables
-    function displayPayments() {
-        tableBody.clear();
 
-        payments.forEach(payment => {
-            tableBody.row.add([
+    function renderDataTable() {
+        if ($.fn.DataTable.isDataTable('#paymentTable')) {
+            table.clear().rows.add(payments.map(payment => ([
                 payment.paymentID,
                 payment.orderID,
                 new Date(payment.paymentDate).toLocaleString(),
@@ -111,19 +115,41 @@ document.addEventListener('DOMContentLoaded', function () {
                 payment.paymentStatus,
                 payment.transactionCode,
                 payment.userID,
-                payment.amount || 'N/A' // Trường amount không có trong API, để N/A
-            ]);
-        });
-
-        tableBody.draw();
+                payment.amount || 'N/A'
+            ]))).draw();
+        } else {
+            table = $('#paymentTable').DataTable({
+                data: payments.map(payment => ([
+                    payment.paymentID,
+                    payment.orderID,
+                    new Date(payment.paymentDate).toLocaleString(),
+                    payment.unit_Code,
+                    payment.paymentMethod,
+                    payment.paymentStatus,
+                    payment.transactionCode,
+                    payment.userID,
+                    payment.amount || 'N/A'
+                ])),
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                lengthChange: false,
+                pageLength: parseInt(lengthSelect?.value) || 5,
+                language: {
+                    emptyTable: "No data available"
+                }
+            });
+        }
         updateCustomPagination();
     }
 
-    // Cập nhật phân trang tùy chỉnh
+
     function updateCustomPagination() {
-        const info = tableBody.page.info();
+        const info = table.page.info();
         currentPage = info.page + 1;
         const totalPages = info.pages;
+
 
         paginationContainer.innerHTML = '';
         for (let i = 1; i <= totalPages; i++) {
@@ -131,53 +157,44 @@ document.addEventListener('DOMContentLoaded', function () {
             btn.className = `btn btn-custom-gray ${i === currentPage ? 'active' : ''}`;
             btn.textContent = i;
             btn.addEventListener('click', () => {
-                tableBody.page(i - 1).draw(false);
+                table.page(i - 1).draw(false);
                 updateCustomPagination();
             });
             paginationContainer.appendChild(btn);
         }
 
+
         prevPageBtn.disabled = currentPage === 1;
         nextPageBtn.disabled = currentPage === totalPages;
     }
 
-    // Khởi tạo DataTables
-    $('#paymentTable').DataTable({
-        paging: true,
-        searching: true,
-        ordering: true,
-        info: true,
-        lengthChange: false,
-        pageLength: parseInt(lengthSelect.value),
-        language: {
-            emptyTable: "No data available"
-        }
-    });
 
-    // Tích hợp tìm kiếm tùy chỉnh
-    searchInput.addEventListener('input', function () {
-        tableBody.search(this.value).draw();
+    searchInput?.addEventListener('input', function () {
+        table.search(this.value).draw();
         updateCustomPagination();
     });
 
-    // Tích hợp thay đổi số lượng mục trên mỗi trang
-    lengthSelect.addEventListener('change', function () {
-        tableBody.page.len(parseInt(this.value)).draw();
+
+    lengthSelect?.addEventListener('change', function () {
+        table.page.len(parseInt(this.value)).draw();
         updateCustomPagination();
     });
 
-    // Nút Previous
-    prevPageBtn.addEventListener('click', function () {
-        tableBody.page('previous').draw(false);
+
+    prevPageBtn?.addEventListener('click', function () {
+        table.page('previous').draw(false);
         updateCustomPagination();
     });
 
-    // Nút Next
-    nextPageBtn.addEventListener('click', function () {
-        tableBody.page('next').draw(false);
+
+    nextPageBtn?.addEventListener('click', function () {
+        table.page('next').draw(false);
         updateCustomPagination();
     });
 
-    // Khởi tạo
+
     fetchSalesReport();
 });
+
+
+
