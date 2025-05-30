@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,7 +7,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <title>Document</title>
+    <title>Payment Management</title>
     <style>
         html,
         body {
@@ -154,15 +153,12 @@
 
         .custom-input {
             background-color: #393e42;
-            /* màu xám Bootstrap (gray-600) */
             color: white;
             border: 1px solid #627d99;
-            /* viền tối hơn */
         }
 
         .custom-input::placeholder {
             color: #ffffff;
-            /* chữ placeholder màu xám nhạt */
         }
 
         .custom-input:focus {
@@ -202,18 +198,141 @@
             color: white !important;
             border-color: #343a40 !important;
         }
+
+        /* Responsive Adjustments */
+        @media (max-width: 991px) {
+            .sidebar-custom {
+                position: fixed;
+                top: 0;
+                left: -250px;
+                width: 250px;
+                height: 100%;
+                z-index: 1050;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar-custom.show {
+                left: 0;
+            }
+
+            .col-md-9,
+            .col-lg-10 {
+                width: 100%;
+                padding: 0 15px !important;
+            }
+
+            .container.mt-5 {
+                margin-top: 2rem !important;
+                padding: 1rem;
+            }
+
+            .table-responsive {
+                font-size: 0.9rem;
+            }
+
+            .table th,
+            .table td {
+                padding: 0.5rem;
+            }
+
+            .d-flex.flex-wrap.align-items-center {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .d-flex.gap-3.mb-3,
+            .d-flex.flex-wrap.gap-3 {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .form-control.w-auto,
+            .form-select.w-auto {
+                width: 100% !important;
+                max-width: 100%;
+            }
+
+            .btn-group {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .btn-group .btn {
+                flex: 1;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .sidebar-custom {
+                width: 200px;
+                left: -200px;
+            }
+
+            .sidebar-custom.show {
+                left: 0;
+            }
+
+            .table-responsive {
+                font-size: 0.85rem;
+            }
+
+            .table th,
+            .table td {
+                padding: 0.4rem;
+            }
+
+            .container.text-light h1,
+            .container.text-light h5 {
+                font-size: 1.25rem;
+            }
+
+            .footer {
+                padding: 20px 0;
+                font-size: 0.85rem;
+            }
+
+            .footer .col-md-3 {
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+
+            .footer .logo {
+                max-width: 100px;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .table-responsive {
+                font-size: 0.8rem;
+            }
+
+            .table th,
+            .table td {
+                padding: 0.3rem;
+            }
+
+            .d-flex.justify-content-between.align-items-center.mt-4 {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .btn-custom-gray,
+            .btn-custom-gray-outline {
+                width: 100%;
+                text-align: center;
+            }
+        }
     </style>
 </head>
-
 <body class="text-white">
     <main>
         <div class="container-fluid">
             <div class="row min-vh-100">
-
                 <!-- Sidebar -->
                 <div class="col-md-3 col-lg-2 sidebar-custom text-white p-3">
-                    <a href="/"
-                        class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                         <span class="fs-4 gradient-text fw-bold">Management Pages</span>
                     </a>
                     <hr />
@@ -223,22 +342,22 @@
                                 <i class="fas fa-car me-2"></i> Car Management
                             </a>
                         </li>
-                        <li class=" mb-2">
+                        <li class="mb-2">
                             <a href="../OrderManagement/index.html" class="nav-link text-white">
                                 <i class="fas fa-file-invoice me-2"></i> Order Management
                             </a>
                         </li>
-                        <li class=" mb-2">
+                        <li class="mb-2">
                             <a href="../PaymentManagement/index.html" class="nav-link active" aria-current="page">
                                 <i class="fas fa-money-bill-wave me-2"></i> Payment Management
                             </a>
                         </li>
-                        <li class=" mb-2">
+                        <li class="mb-2">
                             <a href="../NotificationManagement/index.html" class="nav-link text-white">
                                 <i class="fas fa-bell me-2"></i> Notification Management
                             </a>
                         </li>
-                        <li class=" mb-2">
+                        <li class="mb-2">
                             <a href="../FinancialManagement/index.html" class="nav-link text-white">
                                 <i class="fas fa-chart-line me-2"></i> Financial Management
                             </a>
@@ -247,26 +366,19 @@
                     <hr />
                 </div>
 
-                <!-- Nội dung chính -->
-                <div class="col-md-9 col-lg-10 bg-black text-white pl-0 pr-0 ml-0 mr-0">
+                <!-- Main Content -->
+                <div class="col-md-9 col-lg-10 bg-black text-white">
                     <header class="pt-1 pb-3 text-white">
                         <div class="container">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <img src="./360_F_493639968_ZqpYbW6DqzOqIMCIUbnrYdJVVJnDDTvZ-removebg-preview.png"
-                                        alt="Logo" class="img-fluid" style="max-height: 100px;" />
+                                    <img src="./360_F_493639968_ZqpYbW6DqzOqIMCIUbnrYdJVVJnDDTvZ-removebg-preview.png" alt="Logo" class="img-fluid" style="max-height: 100px;" />
                                 </div>
-
                                 <div class="d-flex align-items-center">
-                                    <div>
-                                        <button type="button" name="logInBtn"
-                                            class="btn btn-outline-light me-2">Logout</button>
-                                    </div>
+                                    <button type="button" name="logInBtn" class="btn btn-outline-light me-2">Logout</button>
                                     <div class="dropdown ms-3">
-                                        <a href="#" class="d-block link-light text-decoration-none dropdown-toggle"
-                                            id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img src="https://images.thedirect.com/media/photos/avatar3.png"
-                                                alt="Avatar" width="40" height="40" class="rounded-circle" />
+                                        <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img src="https://images.thedirect.com/media/photos/avatar3.png" alt="Avatar" width="40" height="40" class="rounded-circle" />
                                         </a>
                                         <ul class="dropdown-menu text-small bg-dark" aria-labelledby="dropdownUser1">
                                             <li><a class="dropdown-item text-white" href="#">Settings</a></li>
@@ -278,33 +390,31 @@
                         </div>
                     </header>
 
-                    <div class="container mt-5 p-4  bg-gradient-blue text-light rounded shadow">
+                    <div class="container mt-5 p-4 bg-gradient-blue text-light rounded shadow">
                         <!-- Header Controls -->
                         <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
                             <!-- Filters and Sorting -->
                             <div class="d-flex flex-wrap gap-3 ms-auto">
-                                <input type="text" class="form-control w-auto custom-input" placeholder="Search...">
-                                <select class="form-select w-auto custom-input text-white">
-                                    <option value="all" class="text-white">All statuses</option>
-                                    <option value="pending" class="text-white">Pending</option>
-                                    <option value="completed" class="text-white">Completed</option>
-                                    <option value="failed" class="text-white">Failed</option>
+                                <input type="text" id="searchInput" class="form-control w-auto custom-input" placeholder="Search by Transaction Code...">
+                                <select id="statusFilter" class="form-select w-auto custom-input text-white">
+                                    <option value="all">All Statuses</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="Failed">Failed</option>
                                 </select>
-                                <select class="form-select w-auto custom-input text-white">
-                                    <option value="5" class="text-white">5</option>
-                                    <option value="10" class="text-white">10</option>
-                                    <option value="15" class="text-white">15</option>
+                                <select id="itemsPerPage" class="form-select w-auto custom-input text-white">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
                                 </select>
                             </div>
                         </div>
 
                         <!-- Table Container -->
                         <div class="table-responsive">
-                            <!-- <p class="text-center text-muted">Sản phẩm bạn tìm kiếm không tồn tại</p> -->
-                            <table class="table table-bordered ">
+                            <table class="table table-bordered">
                                 <thead class="table-light">
                                     <tr>
-
                                         <th>Payment ID</th>
                                         <th>Order ID</th>
                                         <th>User ID</th>
@@ -315,33 +425,15 @@
                                         <th>Transaction Code</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-
-                                        <td>1</td>
-                                        <td> </td>
-                                        <td> </td>
-                                        <td> </td>
-                                        <td> </td>
-                                        <td> </td>
-                                        <td>  <select id="statusSelect" class="form-select w-auto text-white bg-info">
-                                            <option value="pending" class="text-white bg-info">Pending</option>
-                                            <option value="completed" class="text-white bg-success">Completed</option>
-                                            <option value="failed" class="text-white bg-danger">Failed</option>
-                                          </select> </td>
-                                        <td> </td>
-                                    </tr>
-                                </tbody>
+                                <tbody id="paymentTableBody"></tbody>
                             </table>
                         </div>
+
+                        <!-- Pagination -->
                         <div class="d-flex justify-content-between align-items-center mt-4">
-                            <button class="btn btn-custom-gray text-white">Previous page</button>
-                            <div class="btn-group">
-                                <button class="btn btn-custom-gray active">1</button>
-                                <button class="btn btn-custom-gray-outline">2</button>
-                                <button class="btn btn-custom-gray-outline">3</button>
-                            </div>
-                            <button class="btn btn-custom-gray text-white">Next page</button>
+                            <button id="prevPage" class="btn btn-custom-gray text-white">Previous page</button>
+                            <div id="pagination" class="btn-group"></div>
+                            <button id="nextPage" class="btn btn-custom-gray text-white">Next page</button>
                         </div>
                     </div>
 
@@ -349,8 +441,7 @@
                         <div class="container text-center">
                             <div class="row justify-content-center">
                                 <div>
-                                    <img src="./360_F_493639968_ZqpYbW6DqzOqIMCIUbnrYdJVVJnDDTvZ-removebg-preview.png"
-                                        alt="Logo" class="img-fluid" style="max-height: 100px;" />
+                                    <img src="./360_F_493639968_ZqpYbW6DqzOqIMCIUbnrYdJVVJnDDTvZ-removebg-preview.png" alt="Logo" class="img-fluid" style="max-height: 100px;" />
                                 </div>
                             </div>
                             <hr />
@@ -368,7 +459,7 @@
                                 <div class="col-md-3 mb-3">
                                     <p>3926 Calvin Street</p>
                                     <p>Baltimore, Maryland,</p>
-                                    <p>21201, United State</p>
+                                    <p>21201, United States</p>
                                     <div class="social-icons">
                                         <a href="#"><i class="bi bi-facebook"></i></a>
                                         <a href="#"><i class="bi bi-instagram"></i></a>
@@ -379,13 +470,10 @@
                         </div>
                     </footer>
                 </div>
-
             </div>
         </div>
-
     </main>
 
     <script src="script.js"></script>
 </body>
-
 </html>
