@@ -105,5 +105,95 @@ namespace CARSALE.Controllers
             }
         }
 
+        [HttpGet("GetPayments")]
+        [AdminAuthorize]
+        public IActionResult GetPayments()
+        {
+            string connectionString = _configuration.GetConnectionString("Database");
+            if (string.IsNullOrEmpty(connectionString))
+                return BadRequest("The connection string has not been initialized.");
+
+            List<Payment> payments = new List<Payment>();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string sql = @"
+                        SELECT PaymentID, OrderID, PaymentDate, Unit_Code, PaymentMethod, 
+                               PaymentStatus, TransactionCode, UserID
+                        FROM PAYMENT";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                payments.Add(new Payment
+                                {
+                                    PaymentID = reader.GetInt32(reader.GetOrdinal("PaymentID")),
+                                    OrderID = reader.GetInt32(reader.GetOrdinal("OrderID")),
+                                    PaymentDate = reader.GetDateTime(reader.GetOrdinal("PaymentDate")),
+                                    Unit_Code = reader.IsDBNull(reader.GetOrdinal("Unit_Code")) ? string.Empty : reader.GetString(reader.GetOrdinal("Unit_Code")),
+                                    PaymentMethod = reader.IsDBNull(reader.GetOrdinal("PaymentMethod")) ? string.Empty : reader.GetString(reader.GetOrdinal("PaymentMethod")),
+                                    PaymentStatus = reader.IsDBNull(reader.GetOrdinal("PaymentStatus")) ? string.Empty : reader.GetString(reader.GetOrdinal("PaymentStatus")),
+                                    TransactionCode = reader.IsDBNull(reader.GetOrdinal("TransactionCode")) ? string.Empty : reader.GetString(reader.GetOrdinal("TransactionCode")),
+                                    UserID = reader.GetInt32(reader.GetOrdinal("UserID"))
+                                });
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+
+                if (payments.Count == 0)
+                    return NotFound(new { message = "No payments found." });
+
+                return Ok(payments);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPut("Update")]
+        [AdminAuthorize]
+        public IActionResult UpdatePayment([FromBody] UpdatePaymentRequest request)
+        {
+            string connectionString = _configuration.GetConnectionString("Database");
+            if (string.IsNullOrEmpty(connectionString))
+                return BadRequest("The connection string has not been initialized.");
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string sql = @"
+                        UPDATE PAYMENT
+                        SET PaymentStatus = @PaymentStatus, TransactionCode = @TransactionCode
+                        WHERE PaymentID = @PaymentID";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        command.Parameters.Add(new SqlParameter("@PaymentID", request.PaymentID));
+                        command.Parameters.Add(new SqlParameter("@PaymentStatus", request.PaymentStatus));
+                        command.Parameters.Add(new SqlParameter("@TransactionCode", request.TransactionCode));
+
+                        int rowsAffected = command.ExecuteNonQuery();
+                        if (rowsAffected == 0)
+                            return NotFound(new { message = "Payment not found." });
+                    }
+                    connection.Close();
+                }
+
+                return Ok(new { message = "Payment updated successfully." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

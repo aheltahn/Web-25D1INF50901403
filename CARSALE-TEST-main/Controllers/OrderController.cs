@@ -106,5 +106,117 @@ namespace CARSALE.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpGet("GetOrders")]
+        [AdminAuthorize]
+        public IActionResult GetOrders()
+        {
+            string connectionString = _configuration.GetConnectionString("Database");
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                return BadRequest("The connection string has not been initialized.");
+            }
+
+            List<OrderDto2> orders = new List<OrderDto2>();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string sql = @"
+                        SELECT o.*, t.OrderStatus, u.Name AS UserName, cm.CarName
+                        FROM Orders o
+                        JOIN OrderTracking t ON o.OrderTrackingID = t.OrderTrackingID
+                        JOIN USERS u ON o.UserID = u.UserID
+                        JOIN CarModel cm ON o.CarModelID = cm.CarModelID";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                orders.Add(new OrderDto2
+                                {
+                                    OrderID = (int)reader["OrderID"],
+                                    OrderDate = (DateTime)reader["OrderDate"],
+                                    TotalPrice = (decimal)reader["TotalPrice"],
+                                    Unit_Code = reader["Unit_Code"]?.ToString() ?? string.Empty,
+                                    UserID = (int)reader["UserID"],
+                                    CarModelID = (int)reader["CarModelID"],
+                                    OrderTrackingID = (int)reader["OrderTrackingID"],
+                                    OrderStatus = reader["OrderStatus"]?.ToString() ?? string.Empty,
+                                    CreateDatetime = (DateTime)reader["CreateDatetime"],
+                                    UserName = reader["UserName"]?.ToString() ?? string.Empty,
+                                    CarName = reader["CarName"]?.ToString() ?? string.Empty
+                                });
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+
+                if (orders.Count == 0)
+                {
+                    return NotFound(new { message = "No orders found." });
+                }
+
+                return Ok(orders);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPut("UpdateStatus")]
+        [AdminAuthorize]
+        public IActionResult UpdateStatus([FromBody] UpdateOrderStatusRequest request)
+        {
+            string connectionString = _configuration.GetConnectionString("Database");
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                return BadRequest("The connection string has not been initialized.");
+            }
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string sql = @"
+                        UPDATE Orders
+                        SET OrderTrackingID = (SELECT OrderTrackingID FROM OrderTracking WHERE OrderStatus = @OrderStatus)
+                        WHERE OrderID = @OrderID";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        command.Parameters.Add(new SqlParameter("@OrderID", request.OrderID));
+                        command.Parameters.Add(new SqlParameter("@OrderStatus", request.OrderStatus));
+
+                        int rowsAffected = command.ExecuteNonQuery();
+                        if (rowsAffected == 0)
+                        {
+                            return NotFound(new { message = "Order not found." });
+                        }
+                    }
+                    connection.Close();
+                }
+
+                return Ok(new { message = "Order status updated successfully." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+    }
+}
+
+namespace CARSALE.Models
+{
+    public class UpdateOrderStatusRequest
+    {
+        public int OrderID { get; set; }
+        public string OrderStatus { get; set; } = string.Empty;
     }
 }
