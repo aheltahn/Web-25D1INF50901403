@@ -1,3 +1,24 @@
+document.addEventListener('DOMContentLoaded', function () {
+    // Lấy nút logout
+    const logOutBtn = document.getElementsByName('logOutBtn')[0];
+
+    // Đồng bộ logout giữa các tab qua sự kiện localStorage
+    window.addEventListener('storage', function (e) {
+        if (e.key === 'logout-event') {
+            localStorage.removeItem('user');
+            window.location.href = '../login/index.html';
+        }
+    });
+
+    // Xử lý sự kiện đăng xuất
+    if (logOutBtn) {
+        logOutBtn.addEventListener('click', () => {
+            localStorage.removeItem('user');
+            localStorage.setItem('logout-event', Date.now());
+            window.location.href = '../login/index.html';
+        });
+    }
+});
 // Hàm định dạng ngày thành DD/MM/YYYY
 function formatDate(dateString) {
     if (!dateString || isNaN(new Date(dateString).getTime())) {
