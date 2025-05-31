@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error(`Lỗi API: ${response.status} - ${response.statusText}`);
+                throw new Error(`Không có đơn hàng đã hoàn thành/hủy`);
             }
             return response.json();
         })
@@ -94,9 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('order-history').classList.add('active');
             document.querySelector(`a[href="#order-history"]`)?.classList.add('active');
             pageTitle.innerHTML = `
-                <a href="../home/index.html" class="title-link" onclick="navigateTo(event, 'homepage')">Homepage</a> -
-                <a href="../Profile/index.html" class="title-link" onclick="navigateTo(event, 'personal')">Profile</a> -
-                <a href="../ViewMyOrder/index.html" class="title-link" onclick="showSection(event, 'order-history')">Order History</a>
+                <a href="../Home Page/Code/index.html" class="title-link" onclick="navigateTo(event, 'homepage')">Homepage</a> -
+                <a href="../Profile Page/index.html" class="title-link" onclick="navigateTo(event, 'personal')">Profile</a> -
+                <a href="../View My Order Page/index.html" class="title-link" onclick="showSection(event, 'order-history')">Order History</a>
             `;
             headerText.textContent = 'Order History';
             filterOrders('order-history');
@@ -137,9 +137,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function navigateTo(event, page) {
         event.preventDefault();
         if (page === 'homepage') {
-            window.location.href = '../home/index.html';
+            window.location.href = '../Home Page/Code/index.html';
         } else if (page === 'personal') {
-            window.location.href = '../Profile/index.html';
+            window.location.href = '../Profile Page/index.html';
         }
     }
 

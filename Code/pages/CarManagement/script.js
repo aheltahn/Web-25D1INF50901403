@@ -1,8 +1,17 @@
+// Lấy token từ localStorage
+const userData = JSON.parse(localStorage.getItem("user"));
+const token = userData?.token;
 
 
+// Kiểm tra token
+if (!token) {
+    alert("Không tìm thấy token. Vui lòng đăng nhập lại.");
+    window.location.href = '../login/index.html';
+}
 document.addEventListener('DOMContentLoaded', function () {
     // Lấy nút logout
     const logOutBtn = document.getElementsByName('logOutBtn')[0];
+
 
     // Đồng bộ logout giữa các tab qua sự kiện localStorage
     window.addEventListener('storage', function (e) {
@@ -11,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
             window.location.href = '../login/index.html';
         }
     });
+
 
     // Xử lý sự kiện đăng xuất
     if (logOutBtn) {
@@ -21,6 +31,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+
 
 
 // Hàm định dạng tiền USD
@@ -34,6 +46,7 @@ function formatCurrency(amount) {
     }).format(amount);
 }
 
+
 // Hàm kiểm tra URL hợp lệ
 function isValidURL(string) {
     try {
@@ -44,8 +57,10 @@ function isValidURL(string) {
     }
 }
 
+
 // Lưu trữ danh sách xe để sử dụng khi chỉnh sửa
 let carList = [];
+
 
 // Hàm làm mới danh sách xe
 function refreshCarList() {
@@ -55,22 +70,28 @@ function refreshCarList() {
         return;
     }
 
+
     tbody.innerHTML = `<tr><td colspan="15" class="text-center">Đang tải dữ liệu...</td></tr>`;
 
+
     fetch('https://carssaleweb-ghb6hjdmhuajejad.southeastasia-01.azurewebsites.net/api/CarModel', {
-        headers: {
-            'Role': 'Admin'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Lỗi API: ${response.status} - ${response.statusText}`);
-        }
-        return response.json();
-    })
+    headers: {
+        'Authorization': `Bearer ${token}`, // ✅ Bắt buộc
+        'Role': 'Admin'                      // (tuỳ logic backend, giữ lại nếu đang dùng)
+    }
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error(`Lỗi API: ${response.status} - ${response.statusText}`);
+    }
+    return response.json();
+})
+
+
     .then(data => {
         console.log('Dữ liệu từ API:', data);
         tbody.innerHTML = '';
+
 
         if (!Array.isArray(data) || data.length === 0) {
             tbody.innerHTML = `<tr><td colspan="15" class="text-center">Không có dữ liệu xe.</td></tr>`;
@@ -78,8 +99,10 @@ function refreshCarList() {
             return;
         }
 
+
         // Lưu danh sách xe vào biến toàn cục
         carList = data;
+
 
         data.forEach((car, index) => {
             const carName = car.carName || car.CarName || (car.Car && car.Car.carName) || 'N/A';
@@ -97,6 +120,7 @@ function refreshCarList() {
             const statusName = (car.status && (car.status.statusName || car.status.StatusName)) || car.statusName || car.StatusName || 'N/A';
             const statusClass = statusName.toLowerCase() === 'available' ? 'bg-success' : 'bg-secondary';
 
+
             // Lưu BrandID, CategoryID, StatusID vào localStorage nếu có
             const carId = car.carModelID || car.CarModelID || car.id || car.CarModelId || '';
             if (carId) {
@@ -104,11 +128,12 @@ function refreshCarList() {
                 const categoryId = car.categoryID || car.CategoryID || (car.category && (car.category.categoryID || car.category.CategoryID || car.category.Id || car.category.id || car.category.category_id)) || '';
                 const statusId = car.statusID || car.StatusID || (car.status && (car.status.statusID || car.status.StatusID || car.status.Id || car.status.id || car.status.status_id)) || '';
 
+
                 if (brandId) localStorage.setItem(`BrandID_${carId}`, brandId);
                 if (categoryId) localStorage.setItem(`CategoryID_${carId}`, categoryId);
                 if (statusId) localStorage.setItem(`StatusID_${carId}`, statusId);
             }
-        
+       
             const row = `
                 <tr data-id="${carId}">
                     <td><input type="checkbox"></td>
@@ -145,6 +170,7 @@ function refreshCarList() {
             tbody.innerHTML += row;
         });
 
+
         // Thêm sự kiện cho các nút "Edit" sau khi bảng được hiển thị
         document.querySelectorAll('.edit-btn').forEach(button => {
             button.addEventListener('click', function () {
@@ -154,10 +180,12 @@ function refreshCarList() {
                     return;
                 }
 
+
                 if (!carList || carList.length === 0) {
                     alert("Danh sách xe rỗng, không thể chỉnh sửa!");
                     return;
                 }
+
 
                 // Tìm xe trong danh sách đã tải sẵn
                 const car = carList.find(c => String(c.carModelID || c.CarModelID || c.id || c.CarModelId || '') === String(carId));
@@ -165,6 +193,7 @@ function refreshCarList() {
                     alert("Không tìm thấy dữ liệu xe để chỉnh sửa!");
                     return;
                 }
+
 
                 // Điền dữ liệu vào modal
                 document.getElementById('editCarModelID').value = car.carModelID || car.CarModelID || car.id || car.CarModelId || 'N/A';
@@ -178,20 +207,24 @@ function refreshCarList() {
                 document.getElementById('editModel').value = car.model || car.Model || 'N/A';
                 document.getElementById('editUnitPrice').value = car.unitPrice || car.UnitPrice || car.price || car.Price || '';
 
+
                 // Cập nhật cách lấy BrandID, CategoryID, StatusID từ dữ liệu API
                 const brandIdFromApi = car.brandID || car.BrandID || (car.brand && (car.brand.brandID || car.brand.BrandID || car.brand.Id || car.brand.id || car.brand.brand_id)) || '';
                 const categoryIdFromApi = car.categoryID || car.CategoryID || (car.category && (car.category.categoryID || car.category.CategoryID || car.category.Id || car.category.id || car.category.category_id)) || '';
                 const statusIdFromApi = car.statusID || car.StatusID || (car.status && (car.status.statusID || car.status.StatusID || car.status.Id || car.status.id || car.status.status_id)) || '';
+
 
                 // Lấy giá trị từ localStorage nếu API không có dữ liệu
                 const brandId = brandIdFromApi || localStorage.getItem(`BrandID_${carId}`) || '';
                 const categoryId = categoryIdFromApi || localStorage.getItem(`CategoryID_${carId}`) || '';
                 const statusId = statusIdFromApi || localStorage.getItem(`StatusID_${carId}`) || '';
 
+
                 // Điền giá trị vào modal và kiểm tra lỗi
                 document.getElementById('editBrandID').value = brandId || '';
                 document.getElementById('editCategoryID').value = categoryId || '';
                 document.getElementById('editStatusID').value = statusId || '';
+
 
                 // Thông báo cho người dùng nếu không tìm thấy giá trị
                 if (!brandId) {
@@ -209,6 +242,7 @@ function refreshCarList() {
             });
         });
 
+
         // Thêm sự kiện cho các nút "View" sau khi bảng được hiển thị
         document.querySelectorAll('.view-btn').forEach(button => {
             button.addEventListener('click', function () {
@@ -218,10 +252,12 @@ function refreshCarList() {
                     return;
                 }
 
+
                 if (!carList || carList.length === 0) {
                     alert("Danh sách xe rỗng, không thể xem!");
                     return;
                 }
+
 
                 // Tìm xe trong danh sách đã tải sẵn
                 const car = carList.find(c => String(c.carModelID || c.CarModelID || c.id || c.CarModelId || '') === String(carId));
@@ -229,6 +265,7 @@ function refreshCarList() {
                     alert("Không tìm thấy dữ liệu xe để xem!");
                     return;
                 }
+
 
                 // Điền dữ liệu vào modal viewModal
                 document.getElementById('viewCarModelID').textContent = car.carModelID || car.CarModelID || car.id || car.CarModelId || 'N/A';
@@ -244,16 +281,16 @@ function refreshCarList() {
                 imageLink.textContent = imageUrl;
                 document.getElementById('viewModel').textContent = car.model || car.Model || 'N/A';
                 document.getElementById('viewUnitPrice').textContent = car.unitPrice || car.UnitPrice || car.price || car.Price ? formatCurrency(car.unitPrice || car.UnitPrice || car.price || car.Price) : 'N/A';
-                
+               
                 // Cập nhật cách lấy BrandID, CategoryID, StatusID từ dữ liệu API
                 const brandId = car.brandID || car.BrandID || (car.brand && (car.brand.brandID || car.brand.BrandID || car.brand.Id || car.brand.id || car.brand.brand_id)) || '';
                 const categoryId = car.categoryID || car.CategoryID || (car.category && (car.category.categoryID || car.category.CategoryID || car.category.Id || car.category.id || car.category.category_id)) || '';
                 const statusId = car.statusID || car.StatusID || (car.status && (car.status.statusID || car.status.StatusID || car.status.Id || car.status.id || car.status.status_id)) || '';
-                
+               
                 document.getElementById('viewBrandID').textContent = brandId || 'N/A';
                 document.getElementById('viewCategoryID').textContent = categoryId || 'N/A';
                 document.getElementById('viewStatusID').textContent = statusId || 'N/A';
-                
+               
                 // Hiển thị các trường bổ sung từ API
                 document.getElementById('viewBrandName').textContent = (car.brand && (car.brand.brandName || car.brand.BrandName)) || car.brandName || car.BrandName || 'N/A';
                 document.getElementById('viewCategoryName').textContent = (car.category && (car.category.categoryName || car.category.CategoryName)) || car.categoryName || car.CategoryName || 'N/A';
@@ -261,6 +298,7 @@ function refreshCarList() {
                 document.getElementById('viewIsHidden').textContent = car.isHidden !== undefined ? (car.isHidden ? 'Yes' : 'No') : 'N/A';
             });
         });
+
 
         // Thêm sự kiện cho các nút "Delete" sau khi bảng được hiển thị
         document.querySelectorAll('.delete-btn').forEach(button => {
@@ -271,33 +309,38 @@ function refreshCarList() {
                     return;
                 }
 
+
                 // Xác nhận trước khi xóa
                 if (!confirm(`Bạn có chắc chắn muốn xóa xe có ID ${carId} không?`)) {
                     return;
                 }
+
 
                 try {
                     // Gửi yêu cầu DELETE đến API
                     const response = await fetch(`https://carssaleweb-ghb6hjdmhuajejad.southeastasia-01.azurewebsites.net/api/CarModel/${carId}`, {
                         method: "DELETE",
                         headers: {
-                            "Authorization": "Bearer <your-token-here>", // Thay <your-token-here> bằng token thực tế
+                            "Authorization": `Bearer ${token}`,
                             "Content-Type": "application/json",
                             "Role": "Admin" // Thêm header Role: Admin
                         }
                     });
 
+
                     console.log('Phản hồi từ API DELETE:', response);
+
 
                     if (response.ok) {
                         const message = await response.text();
                         console.log('Thông báo từ server:', message);
                         alert(message || "Xóa xe thành công!");
-                        
+                       
                         // Xóa các giá trị liên quan trong localStorage
                         localStorage.removeItem(`BrandID_${carId}`);
                         localStorage.removeItem(`CategoryID_${carId}`);
                         localStorage.removeItem(`StatusID_${carId}`);
+
 
                         // Làm mới danh sách xe
                         refreshCarList();
@@ -328,14 +371,17 @@ function refreshCarList() {
     });
 }
 
+
 // Hiển thị danh sách xe khi tải trang
 document.addEventListener('DOMContentLoaded', function () {
     refreshCarList();
 });
 
+
 // Thêm xe
 document.getElementById("addCarForm").addEventListener("submit", function (event) {
     event.preventDefault();
+
 
     const carData = {
         CarName: document.getElementById("carName").value.trim(),
@@ -352,31 +398,35 @@ document.getElementById("addCarForm").addEventListener("submit", function (event
         StatusID: Number(document.getElementById("statusID").value)
     };
 
+
     // Kiểm tra dữ liệu nghiêm ngặt hơn
-    if (!carData.CarName || !carData.FuelType || !carData.Transmission || !carData.Color || 
+    if (!carData.CarName || !carData.FuelType || !carData.Transmission || !carData.Color ||
         !carData.ImageURL || !carData.Model || !isValidURL(carData.ImageURL)) {
         alert("Vui lòng nhập đầy đủ các trường chuỗi và đảm bảo ImageURL là một URL hợp lệ!");
         return;
     }
 
-    if (isNaN(carData.Year) || carData.Year <= 0 || carData.Year > 2025 || 
-        isNaN(carData.EngineCapacity) || carData.EngineCapacity <= 0 || 
-        isNaN(carData.UnitPrice) || carData.UnitPrice <= 0 || 
-        isNaN(carData.BrandID) || carData.BrandID <= 0 || 
-        isNaN(carData.CategoryID) || carData.CategoryID <= 0 || 
+
+    if (isNaN(carData.Year) || carData.Year <= 0 || carData.Year > 2025 ||
+        isNaN(carData.EngineCapacity) || carData.EngineCapacity <= 0 ||
+        isNaN(carData.UnitPrice) || carData.UnitPrice <= 0 ||
+        isNaN(carData.BrandID) || carData.BrandID <= 0 ||
+        isNaN(carData.CategoryID) || carData.CategoryID <= 0 ||
         isNaN(carData.StatusID) || carData.StatusID <= 0) {
         alert("Vui lòng nhập đầy đủ và đúng định dạng các trường số! Năm phải từ 1886 đến 2025, các trường số phải lớn hơn 0.");
         return;
     }
 
+
     console.log('Dữ liệu gửi lên API POST:', carData);
+
 
     fetch("https://carssaleweb-ghb6hjdmhuajejad.southeastasia-01.azurewebsites.net/api/CarModel", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Role": "Admin",
-            "Authorization": "Bearer <your-token-here>" // Thêm header Authorization nếu cần
+            "Authorization":  `Bearer ${token}`,
         },
         body: JSON.stringify(carData)
     })
@@ -399,6 +449,7 @@ document.getElementById("addCarForm").addEventListener("submit", function (event
         addModal.hide();
         document.getElementById("addCarForm").reset();
 
+
         // Lưu BrandID, CategoryID, StatusID vào localStorage với carId từ phản hồi nếu cần
         refreshCarList();
     })
@@ -408,15 +459,18 @@ document.getElementById("addCarForm").addEventListener("submit", function (event
     });
 });
 
+
 // Xử lý chỉnh sửa xe
 document.getElementById("editCarForm").addEventListener("submit", function (event) {
     event.preventDefault();
+
 
     const carId = document.getElementById("editCarModelID").value;
     if (!carId) {
         alert("Không tìm thấy ID xe để cập nhật!");
         return;
     }
+
 
     const carData = {
         CarName: document.getElementById("editCarName").value.trim(),
@@ -433,24 +487,28 @@ document.getElementById("editCarForm").addEventListener("submit", function (even
         StatusID: parseInt(document.getElementById("editStatusID").value)
     };
 
+
     // Kiểm tra dữ liệu nghiêm ngặt hơn
-    if (!carData.CarName || 
-        isNaN(carData.Year) || carData.Year <= 0 || 
-        isNaN(carData.EngineCapacity) || carData.EngineCapacity <= 0 || 
-        isNaN(carData.UnitPrice) || carData.UnitPrice <= 0 || 
-        isNaN(carData.BrandID) || carData.BrandID <= 0 || 
-        isNaN(carData.CategoryID) || carData.CategoryID <= 0 || 
+    if (!carData.CarName ||
+        isNaN(carData.Year) || carData.Year <= 0 ||
+        isNaN(carData.EngineCapacity) || carData.EngineCapacity <= 0 ||
+        isNaN(carData.UnitPrice) || carData.UnitPrice <= 0 ||
+        isNaN(carData.BrandID) || carData.BrandID <= 0 ||
+        isNaN(carData.CategoryID) || carData.CategoryID <= 0 ||
         isNaN(carData.StatusID) || carData.StatusID <= 0) {
         alert("Vui lòng nhập đầy đủ và đúng định dạng các trường dữ liệu! Các trường số phải lớn hơn 0.");
         return;
     }
 
+
     console.log('Dữ liệu gửi lên API PUT:', carData);
+
 
     fetch(`https://carssaleweb-ghb6hjdmhuajejad.southeastasia-01.azurewebsites.net/api/CarModel/${carId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
             "Role": "Admin"
         },
         body: JSON.stringify(carData)
@@ -474,17 +532,21 @@ document.getElementById("editCarForm").addEventListener("submit", function (even
             const editModal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
             editModal.hide();
 
+
             // Lưu BrandID, CategoryID, StatusID vào localStorage
             localStorage.setItem(`BrandID_${carId}`, carData.BrandID);
             localStorage.setItem(`CategoryID_${carId}`, carData.CategoryID);
             localStorage.setItem(`StatusID_${carId}`, carData.StatusID);
 
+
             // Làm mới danh sách xe
             refreshCarList();
+
 
             // Kiểm tra dữ liệu API GET sau khi cập nhật
             fetch('https://carssaleweb-ghb6hjdmhuajejad.southeastasia-01.azurewebsites.net/api/CarModel', {
                 headers: {
+                    "Authorization": `Bearer ${token}`,
                     'Role': 'Admin'
                 }
             })
@@ -501,3 +563,4 @@ document.getElementById("editCarForm").addEventListener("submit", function (even
         alert(error.message);
     });
 });
+
